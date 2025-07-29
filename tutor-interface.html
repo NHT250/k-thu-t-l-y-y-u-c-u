@@ -328,6 +328,26 @@
                         <label for="tutorExperience">Kinh nghiệm dạy học</label>
                         <textarea id="tutorExperience" placeholder="Mô tả kinh nghiệm dạy học của bạn"></textarea>
                     </div>
+                    
+                    <!-- Course Duration Section -->
+                    <div class="form-group">
+                        <label>Thời gian khóa học</label>
+                        <div class="date-range-container">
+                            <div class="date-input-group">
+                                <label for="courseStartDate">Ngày bắt đầu khóa học *</label>
+                                <input type="date" id="courseStartDate" required>
+                            </div>
+                            <div class="date-input-group">
+                                <label for="courseEndDate">Ngày kết thúc khóa học *</label>
+                                <input type="date" id="courseEndDate" required>
+                            </div>
+                        </div>
+                        <div class="date-validation" id="dateValidation" style="display: none;">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <span id="dateValidationMessage"></span>
+                        </div>
+                    </div>
+                    
                     <div class="form-group">
                         <label>Chứng chỉ và thành tích</label>
                         <div class="file-upload-section">

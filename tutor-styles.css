@@ -1856,3 +1856,73 @@ body {
         flex-direction: column;
     }
 }
+
+/* Date Range Styles */
+.date-range-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.date-input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.date-input-group label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #374151;
+    margin-bottom: 0.25rem;
+}
+
+.date-input-group input[type="date"] {
+    padding: 0.75rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    background-color: #fff;
+    transition: all 0.3s ease;
+}
+
+.date-input-group input[type="date"]:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.date-input-group input[type="date"]:invalid {
+    border-color: #ef4444;
+}
+
+.date-validation {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem;
+    background-color: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: 0.5rem;
+    margin-top: 0.5rem;
+    color: #dc2626;
+    font-size: 0.875rem;
+}
+
+.date-validation i {
+    color: #dc2626;
+    font-size: 1rem;
+}
+
+/* Responsive adjustments for date range */
+@media (max-width: 768px) {
+    .date-range-container {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .date-input-group input[type="date"] {
+        font-size: 1rem; /* Larger touch target on mobile */
+    }
+}

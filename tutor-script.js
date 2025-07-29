@@ -188,6 +188,7 @@ function generateSampleCourses() {
                 startDateFormatted: formatDateForDisplay(startDate),
                 endDateFormatted: formatDateForDisplay(endDate)
             },
+            totalSessions: 12, // Số buổi học mặc định
             status: "active"
         };
     }).filter(course => course !== null);
@@ -286,6 +287,8 @@ function loadTodaySchedule() {
                 <div class="schedule-details">
                     <h4>${course.title}</h4>
                     <p>Học viên: ${course.student.name} | ${course.subject}</p>
+                    <p>Thời gian: ${course.coursePeriod.startDateFormatted} - ${course.coursePeriod.endDateFormatted}</p>
+                    <p>Số buổi học: ${course.totalSessions}</p>
                 </div>
             </div>
             <div class="schedule-actions">
@@ -302,20 +305,41 @@ function loadTodaySchedule() {
 function loadHistory() {
     const historyList = document.getElementById('historyList');
     
-    historyList.innerHTML = sampleHistory.map(item => `
+    historyList.innerHTML = sampleHistory.map(item => {
+        // Tìm thông tin bổ sung từ sampleCourses nếu có cùng id
+        const course = sampleCourses.find(c => c.id === item.id);
+        let extraInfo = '';
+        if (course) {
+            extraInfo = `
+                <p>Thời gian: ${course.coursePeriod.startDateFormatted} - ${course.coursePeriod.endDateFormatted}</p>
+                <p>Số buổi học: ${course.totalSessions}</p>
+            `;
+        }
+        // Hiển thị đánh giá nếu có
+        let ratingHtml = '';
+        if (item.status === 'completed' && typeof item.rating === 'number') {
+            const stars = Array.from({length: 5}, (_, i) =>
+                `<i class='fas fa-star' style='color:${i < item.rating ? '#facc15' : '#e5e7eb'}'></i>`
+            ).join('');
+            ratingHtml = `<div class='history-rating'>Đánh giá học viên: ${stars} <span>(${item.rating}/5)</span></div>`;
+        }
+        return `
         <div class="history-item">
             <div class="history-info">
                 <div class="history-date">${formatDate(item.date)}</div>
                 <div class="history-details">
                     <h4>${item.title}</h4>
                     <p>Học viên: ${item.student} | ${item.time}</p>
+                    ${extraInfo}
+                    ${ratingHtml}
                 </div>
             </div>
             <div class="history-status ${item.status}">
                 ${item.status === 'completed' ? 'Đã hoàn thành' : 'Đã hủy'}
             </div>
         </div>
-    `).join('');
+        `;
+    }).join('');
 }
 
 // Load courses
@@ -343,6 +367,10 @@ function loadCourses() {
                 <div class="course-period">
                     <h5>Thời gian khóa học</h5>
                     <p><i class="fas fa-calendar-alt"></i> ${course.coursePeriod.startDateFormatted} - ${course.coursePeriod.endDateFormatted}</p>
+                </div>
+                <div class="course-sessions">
+                    <h5>Số buổi học</h5>
+                    <p><i class="fas fa-list-ol"></i> ${course.totalSessions}</p>
                 </div>
                 <div class="course-actions">
                     <button class="btn btn-primary" onclick="joinCourse(${course.id})">
@@ -566,50 +594,42 @@ function loadCancelableCourses() {
 function handleRegisterTutor(e) {
     e.preventDefault();
     
-    const faculty = document.getElementById('tutorFaculty').value;
-    const subjects = Array.from(document.querySelectorAll('#subjectsContainer input[type="checkbox"]:checked')).map(cb => cb.value);
-    const experience = document.getElementById('tutorExperience').value;
-    
-    // Validate required fields
-    if (!faculty) {
-        alert('Vui lòng chọn khoa chuyên ngành');
+    // Validate dates first
+    if (!validateCourseDates()) {
         return;
     }
     
-    if (subjects.length === 0) {
-        alert('Vui lòng chọn ít nhất một môn học có thể dạy');
-        return;
-    }
-    
-    // Get uploaded files
-    const certificateFiles = Array.from(document.getElementById('certificateList').children).map(item => item.querySelector('.file-name').textContent);
-    const awardFiles = Array.from(document.getElementById('awardList').children).map(item => item.querySelector('.file-name').textContent);
-    
+    // Get form data
+    const formData = new FormData(e.target);
     const tutorData = {
-        faculty: faculty,
-        facultyName: facultySubjects[faculty].name,
-        subjects: subjects,
-        experience: experience,
-        certificates: certificateFiles,
-        awards: awardFiles
+        faculty: document.getElementById('tutorFaculty').value,
+        subjects: Array.from(document.querySelectorAll('#subjectsContainer input[type="checkbox"]:checked')).map(cb => cb.value),
+        experience: document.getElementById('tutorExperience').value,
+        courseStartDate: document.getElementById('courseStartDate').value,
+        courseEndDate: document.getElementById('courseEndDate').value,
+        schedule: getScheduleData(),
+        certificates: getFileList('certificateList'),
+        awards: getFileList('awardList')
     };
     
-    // Simulate API call
-    console.log('Submitting tutor registration:', tutorData);
+    // Validate required fields
+    if (!tutorData.faculty || tutorData.subjects.length === 0) {
+        alert('Vui lòng chọn khoa chuyên ngành và ít nhất một môn học');
+        return;
+    }
+    
+    // Submit the form
+    console.log('Tutor registration data:', tutorData);
     
     // Show success message
-    alert('Hồ sơ đã được gửi thành công! Chúng tôi sẽ xem xét và phản hồi trong thời gian sớm nhất.');
+    alert('Đăng ký gia sư thành công! Hồ sơ của bạn sẽ được xem xét trong vòng 24-48 giờ.');
     
-    // Close modal and reset form
+    // Close modal
     closeModal('registerTutor');
+    
+    // Reset form
     e.target.reset();
-    
-    // Reset file lists
-    document.getElementById('certificateList').innerHTML = '';
-    document.getElementById('awardList').innerHTML = '';
-    
-    // Reset subjects
-    document.getElementById('subjectsContainer').innerHTML = '<p class="no-subjects">Vui lòng chọn khoa chuyên ngành trước</p>';
+    hideDateValidation();
 }
 
 // Handle cancel schedule form
@@ -1276,6 +1296,170 @@ function showFileError(message) {
         errorDiv.remove();
     }, 3000);
 }
+
+// Date validation functions
+function validateCourseDates() {
+    const startDate = document.getElementById('courseStartDate');
+    const endDate = document.getElementById('courseEndDate');
+    const validationDiv = document.getElementById('dateValidation');
+    const validationMessage = document.getElementById('dateValidationMessage');
+    
+    if (!startDate.value || !endDate.value) {
+        return true; // Let HTML5 validation handle required fields
+    }
+    
+    const start = new Date(startDate.value);
+    const end = new Date(endDate.value);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Reset time to start of day
+    
+    // Check if start date is in the past
+    if (start < today) {
+        showDateValidation('Ngày bắt đầu không thể là ngày trong quá khứ');
+        return false;
+    }
+    
+    // Check if end date is before start date
+    if (end <= start) {
+        showDateValidation('Ngày kết thúc phải sau ngày bắt đầu');
+        return false;
+    }
+    
+    // Check if course duration is too long (more than 1 year)
+    const durationInDays = Math.ceil((end - start) / (1000 * 60 * 60 * 24));
+    if (durationInDays > 365) {
+        showDateValidation('Khóa học không thể kéo dài quá 1 năm');
+        return false;
+    }
+    
+    // Check if course duration is too short (less than 1 week)
+    if (durationInDays < 7) {
+        showDateValidation('Khóa học phải kéo dài ít nhất 1 tuần');
+        return false;
+    }
+    
+    hideDateValidation();
+    return true;
+}
+
+function showDateValidation(message) {
+    const validationDiv = document.getElementById('dateValidation');
+    const validationMessage = document.getElementById('dateValidationMessage');
+    
+    if (validationDiv && validationMessage) {
+        validationMessage.textContent = message;
+        validationDiv.style.display = 'flex';
+    }
+}
+
+function hideDateValidation() {
+    const validationDiv = document.getElementById('dateValidation');
+    if (validationDiv) {
+        validationDiv.style.display = 'none';
+    }
+}
+
+// Add event listeners for date validation
+function setupDateValidation() {
+    const startDate = document.getElementById('courseStartDate');
+    const endDate = document.getElementById('courseEndDate');
+    
+    if (startDate) {
+        startDate.addEventListener('change', function() {
+            validateCourseDates();
+            updateEndDateMin();
+        });
+    }
+    
+    if (endDate) {
+        endDate.addEventListener('change', validateCourseDates);
+    }
+}
+
+// Set minimum date for start date (today)
+function setMinStartDate() {
+    const startDate = document.getElementById('courseStartDate');
+    if (startDate) {
+        const today = new Date().toISOString().split('T')[0];
+        startDate.min = today;
+    }
+}
+
+// Update end date minimum when start date changes
+function updateEndDateMin() {
+    const startDate = document.getElementById('courseStartDate');
+    const endDate = document.getElementById('courseEndDate');
+    
+    if (startDate && endDate && startDate.value) {
+        endDate.min = startDate.value;
+        
+        // If end date is before new start date, clear it
+        if (endDate.value && endDate.value <= startDate.value) {
+            endDate.value = '';
+        }
+    }
+}
+
+// Helper function to get schedule data
+function getScheduleData() {
+    const schedule = {};
+    const days = ['Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7', 'Chủ nhật'];
+    
+    days.forEach((day, index) => {
+        const dayElement = document.querySelector(`.schedule-day:nth-child(${index + 1})`);
+        if (dayElement) {
+            const startTime = dayElement.querySelector('.time-start').value;
+            const endTime = dayElement.querySelector('.time-end').value;
+            
+            if (startTime && endTime) {
+                schedule[day] = { start: startTime, end: endTime };
+            }
+        }
+    });
+    
+    return schedule;
+}
+
+// Helper function to get file list
+function getFileList(listId) {
+    const fileList = document.getElementById(listId);
+    if (!fileList) return [];
+    
+    const files = [];
+    const fileItems = fileList.querySelectorAll('.file-item');
+    
+    fileItems.forEach(item => {
+        const fileName = item.querySelector('.file-name').textContent;
+        const fileSize = item.querySelector('.file-size').textContent;
+        files.push({ name: fileName, size: fileSize });
+    });
+    
+    return files;
+}
+
+// Initialize date validation when modal opens
+document.addEventListener('DOMContentLoaded', function() {
+    // Add event listener for modal opening
+    const registerTutorModal = document.getElementById('registerTutorModal');
+    if (registerTutorModal) {
+        registerTutorModal.addEventListener('shown.bs.modal', function() {
+            setMinStartDate();
+            setupDateValidation();
+        });
+    }
+    
+    // Also setup when modal is opened via JavaScript
+    const originalOpenModal = window.openModal;
+    window.openModal = function(modalId) {
+        originalOpenModal(modalId);
+        if (modalId === 'registerTutor') {
+            setTimeout(() => {
+                setMinStartDate();
+                setupDateValidation();
+            }, 100);
+        }
+    };
+});
 
 // Add CSS for calendar
 const calendarStyles = `

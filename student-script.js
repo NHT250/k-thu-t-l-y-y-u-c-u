@@ -45,12 +45,15 @@ function setupEventListeners() {
 
     // Search and filter
     const courseSearch = document.getElementById('courseSearch');
+    const tutorSearch = document.getElementById('tutorSearch');
     const subjectFilter = document.getElementById('subjectFilter');
     
     if (courseSearch) {
         courseSearch.addEventListener('input', debounce(handleCourseSearch, 300));
     }
-    
+    if (tutorSearch) {
+        tutorSearch.addEventListener('input', debounce(handleTutorSearch, 300));
+    }
     if (subjectFilter) {
         subjectFilter.addEventListener('change', handleCourseFilter);
     }
@@ -86,7 +89,10 @@ function loadSampleData() {
             sessions: 12,
             description: 'Khóa học toán học cơ bản dành cho sinh viên năm nhất',
             schedule: 'Thứ 2, 4, 6 - 14:00-16:00',
-            price: 'Miễn phí cho sinh viên VLU'
+            price: 'Miễn phí cho sinh viên VLU',
+            startDate: '2024-07-01',
+            endDate: '2024-08-01',
+            meetingUrl: 'https://zoom.us/j/123456789'
         },
         {
             id: 2,
@@ -99,7 +105,10 @@ function loadSampleData() {
             sessions: 10,
             description: 'Khóa học vật lý đại cương với thí nghiệm thực hành',
             schedule: 'Thứ 3, 5 - 15:00-17:00',
-            price: 'Miễn phí cho sinh viên VLU'
+            price: 'Miễn phí cho sinh viên VLU',
+            startDate: '2024-07-05',
+            endDate: '2024-08-10',
+            meetingUrl: 'https://meet.google.com/abc-defg-hij'
         },
         {
             id: 3,
@@ -112,7 +121,10 @@ function loadSampleData() {
             sessions: 15,
             description: 'Khóa học tiếng Anh giao tiếp cơ bản',
             schedule: 'Thứ 2, 3, 5 - 18:00-19:30',
-            price: 'Miễn phí cho sinh viên VLU'
+            price: 'Miễn phí cho sinh viên VLU',
+            startDate: '2024-07-10',
+            endDate: '2024-08-20',
+            meetingUrl: 'https://teams.microsoft.com/l/meetup-join/1234567890'
         },
         {
             id: 4,
@@ -125,7 +137,10 @@ function loadSampleData() {
             sessions: 14,
             description: 'Khóa học lập trình Python từ cơ bản đến nâng cao',
             schedule: 'Thứ 4, 6 - 16:00-18:00',
-            price: 'Miễn phí cho sinh viên VLU'
+            price: 'Miễn phí cho sinh viên VLU',
+            startDate: '2024-07-15',
+            endDate: '2024-08-25',
+            meetingUrl: 'https://zoom.us/j/987654321'
         }
     ];
 
@@ -136,9 +151,12 @@ function loadSampleData() {
             subject: 'Toán học',
             tutor: 'Nguyễn Văn B',
             progress: 75,
-            nextSession: '2024-01-15 14:00',
+            nextSession: '2024-07-16 14:00',
             totalSessions: 12,
-            completedSessions: 9
+            completedSessions: 9,
+            startDate: '2024-07-01',
+            endDate: '2024-08-01',
+            meetingUrl: 'https://zoom.us/j/123456789'
         }
     ];
 
@@ -152,7 +170,10 @@ function loadSampleData() {
             totalSessions: 10,
             attendance: 9,
             finalGrade: 'A',
-            tutorRating: 4.5
+            tutorRating: 4.5,
+            startDate: '2023-11-01',
+            endDate: '2023-12-20',
+            meetingUrl: 'https://zoom.us/j/555555555'
         }
     ];
 }
@@ -277,9 +298,9 @@ function displayAvailableCourses() {
                     <div class="course-rating">
                         <i class="fas fa-star"></i>
                         <span>${course.rating}</span>
-                        <span>(${course.students} học viên)</span>
                     </div>
                     <span>${course.sessions} buổi học</span>
+                    <span>Bắt đầu: ${course.startDate} - Kết thúc: ${course.endDate}</span>
                 </div>
                 <div class="course-actions">
                     <button class="btn btn-secondary" onclick="viewCourseDetail(${course.id})">
@@ -307,23 +328,35 @@ function displayCurrentCourses() {
             </div>
         `;
     } else {
-        currentCoursesList.innerHTML = currentCourses.map(course => `
+        currentCoursesList.innerHTML = currentCourses.map(course => {
+            // Kiểm tra điều kiện hủy
+            let cancelBtn = '';
+            if (course.registeredAt) {
+                const now = new Date();
+                const registered = new Date(course.registeredAt);
+                const diffMs = now - registered;
+                const diffHours = diffMs / (1000 * 60 * 60);
+                if (diffHours <= 12) {
+                    cancelBtn = `<button class="btn btn-danger" onclick="cancelCourse(${course.id})"><i class='fas fa-times'></i> Hủy khóa học</button>`;
+                }
+            }
+            return `
             <div class="course-item">
                 <div class="course-info">
                     <h4>${course.title}</h4>
                     <p>Gia sư: ${course.tutor} | Tiến độ: ${course.progress}%</p>
+                    <p>Thời gian: ${course.startDate} - ${course.endDate}</p>
                     <div class="progress-bar">
                         <div class="progress-fill" style="width: ${course.progress}%"></div>
                     </div>
                 </div>
                 <div class="course-actions">
-                    <button class="btn btn-primary" onclick="joinClassSession(${course.id})">
-                        <i class="fas fa-play"></i>
-                        Vào lớp
-                    </button>
+                    <button class="btn btn-primary" onclick="goToMeeting('${course.meetingUrl}')"><i class="fas fa-play"></i> Vào lớp</button>
+                    ${cancelBtn}
                 </div>
             </div>
-        `).join('');
+            `;
+        }).join('');
     }
 }
 
@@ -347,10 +380,11 @@ function displayHistory() {
                 <div class="history-details">
                     <p><strong>Gia sư:</strong> ${course.tutor}</p>
                     <p><strong>Ngày hoàn thành:</strong> ${formatDate(course.completedDate)}</p>
-                    <p><strong>Tổng số buổi:</strong> ${course.totalSessions}</p>
-                    <p><strong>Điểm danh:</strong> ${course.attendance}/${course.totalSessions}</p>
-                    <p><strong>Điểm cuối khóa:</strong> ${course.finalGrade}</p>
-                    <p><strong>Đánh giá gia sư:</strong> ${course.tutorRating}/5.0</p>
+                    <p><strong>Thời gian khóa học:</strong> ${course.startDate} - ${course.endDate}</p>
+                    <p><strong>Tổng số buổi:</strong> ${course.totalSessions || course.sessions}</p>
+                    <p><strong>Điểm danh:</strong> ${course.attendance || '-'} / ${course.totalSessions || course.sessions}</p>
+                    <p><strong>Điểm cuối khóa:</strong> ${course.finalGrade || '-'}</p>
+                    <p><strong>Đánh giá gia sư:</strong> ${course.tutorRating || '-'} / 5.0</p>
                 </div>
             </div>
         `).join('');
@@ -386,6 +420,15 @@ function handleCourseFilter() {
     displayFilteredCourses(filteredCourses);
 }
 
+// Hàm tìm kiếm theo tên giảng viên
+function handleTutorSearch() {
+    const tutorTerm = document.getElementById('tutorSearch').value.toLowerCase();
+    const filteredCourses = availableCourses.filter(course =>
+        course.tutor.toLowerCase().includes(tutorTerm)
+    );
+    displayFilteredCourses(filteredCourses);
+}
+
 // Display filtered courses
 function displayFilteredCourses(courses) {
     const coursesGrid = document.getElementById('coursesGrid');
@@ -418,7 +461,14 @@ function filterHistory(filter) {
 function viewCourseDetail(courseId) {
     const course = availableCourses.find(c => c.id === courseId);
     if (!course) return;
-    
+    // Giả lập dữ liệu file chứng chỉ và khen thưởng
+    const certificates = course.certificates || [
+        { name: 'Chứng chỉ Toán nâng cao.pdf', url: '#' },
+        { name: 'Chứng chỉ Sư phạm.png', url: '#' }
+    ];
+    const awards = course.awards || [
+        { name: 'Khen thưởng Olympic Toán.jpg', url: '#' }
+    ];
     document.getElementById('modalCourseTitle').textContent = course.title;
     document.getElementById('modalCourseContent').innerHTML = `
         <div class="course-detail-content">
@@ -429,13 +479,22 @@ function viewCourseDetail(courseId) {
                 <p><strong>Mô tả:</strong> ${course.description}</p>
                 <p><strong>Lịch học:</strong> ${course.schedule}</p>
                 <p><strong>Số buổi học:</strong> ${course.sessions}</p>
-                <p><strong>Số học viên hiện tại:</strong> ${course.students}</p>
+                <p><strong>Thời gian khóa học:</strong> ${course.startDate} - ${course.endDate}</p>
                 <p><strong>Đánh giá:</strong> ${course.rating}/5.0</p>
                 <p><strong>Học phí:</strong> ${course.price}</p>
             </div>
+            <div class="detail-section">
+                <h4>Chứng chỉ gia sư</h4>
+                <ul class="file-list">
+                    ${certificates.map(f => `<li><a href='${f.url}' target='_blank'><i class='fas fa-file'></i> ${f.name}</a></li>`).join('')}
+                </ul>
+                <h4>Ảnh khen thưởng</h4>
+                <ul class="file-list">
+                    ${awards.map(f => `<li><a href='${f.url}' target='_blank'><i class='fas fa-image'></i> ${f.name}</a></li>`).join('')}
+                </ul>
+            </div>
         </div>
     `;
-    
     openModal('courseDetail');
 }
 
@@ -457,7 +516,11 @@ function joinCourse(courseId) {
             progress: 0,
             nextSession: getNextSessionTime(),
             totalSessions: course.sessions,
-            completedSessions: 0
+            completedSessions: 0,
+            registeredAt: new Date().toISOString(), // Thời điểm đăng ký
+            startDate: course.startDate,
+            endDate: course.endDate,
+            meetingUrl: course.meetingUrl // Add meetingUrl to newCourse
         };
         
         currentCourses.push(newCourse);
@@ -472,6 +535,11 @@ function joinCourse(courseId) {
         updateStats();
         displayAvailableCourses();
         displayCurrentCourses();
+
+        // Tự động vào phòng học online
+        setTimeout(() => {
+            joinClassSession(newCourse.id);
+        }, 500);
     }, 2000);
 }
 
@@ -529,19 +597,23 @@ function endSession() {
 
 // Update profile
 function updateProfile() {
+    const studentId = document.getElementById('profileStudentId').value;
     const name = document.getElementById('profileName').value;
     const email = document.getElementById('profileEmail').value;
     const phone = document.getElementById('profilePhone').value;
     const faculty = document.getElementById('profileFaculty').value;
     
-    if (!name || !email || !phone || !faculty) {
+    if (!studentId || !name || !email || !phone || !faculty) {
         showMessage('Vui lòng nhập đầy đủ thông tin', 'error');
         return;
     }
     
     // Update user data
+    currentUser.studentId = studentId;
     currentUser.name = name;
     currentUser.email = email;
+    currentUser.phone = phone;
+    currentUser.faculty = faculty;
     
     // Update display
     document.getElementById('userName').textContent = name;
