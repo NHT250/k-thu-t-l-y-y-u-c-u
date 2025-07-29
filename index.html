@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GiaSu Lang - Kết nối gia sư sinh viên Đại học Văn Lang</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Free Learning Banner -->
+    <div class="free-banner">
+        <div class="container">
+            <i class="fas fa-graduation-cap"></i>
+            <span><strong>Miễn phí 100%</strong> cho sinh viên Đại học Văn Lang</span>
+            <button class="verify-btn" onclick="openModal('verify')">
+                <i class="fas fa-check-circle"></i>
+                Xác minh sinh viên
+            </button>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <i class="fas fa-chalkboard-teacher"></i>
+                <span>GiaSu Lang</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#home" class="nav-link">Trang chủ</a></li>
+                <li><a href="#features" class="nav-link">Tính năng</a></li>
+                <li><a href="#tutors" class="nav-link">Gia sư</a></li>
+                <li><a href="#about" class="nav-link">Về chúng tôi</a></li>
+                <li><a href="#contact" class="nav-link">Liên hệ</a></li>
+            </ul>
+            <div class="nav-buttons">
+                <button class="btn btn-outline" onclick="openModal('login')">Đăng nhập</button>
+                <button class="btn btn-primary" onclick="openModal('register')">Đăng ký</button>
+            </div>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <i class="fas fa-star"></i>
+                    <span>Miễn phí cho sinh viên VLU</span>
+                </div>
+                <h1 class="hero-title">
+                    Kết nối <span class="highlight">gia sư sinh viên</span> với <span class="highlight">học viên</span>
+                </h1>
+                <p class="hero-description">
+                    Nền tảng số kết nối sinh viên có năng lực với những sinh viên cần hỗ trợ học tập tại Đại học Văn Lang. 
+                    <strong>Hoàn toàn miễn phí</strong> cho sinh viên VLU - tạo môi trường học tập chủ động, hiệu quả và tiết kiệm chi phí.
+                </p>
+                <div class="hero-benefits">
+                    <div class="benefit-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Miễn phí 100% cho sinh viên VLU</span>
+                    </div>
+                    <div class="benefit-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Gia sư sinh viên chất lượng cao</span>
+                    </div>
+                    <div class="benefit-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Đặt lịch học linh hoạt</span>
+                    </div>
+                </div>
+                <div class="hero-buttons">
+                    <button class="btn btn-primary btn-large" onclick="scrollToSection('tutors')">
+                        <i class="fas fa-search"></i>
+                        Tìm gia sư miễn phí
+                    </button>
+                    <button class="btn btn-outline btn-large" onclick="scrollToSection('students')">
+                        <i class="fas fa-user-plus"></i>
+                        Đăng ký làm gia sư
+                    </button>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="hero-card">
+                    <div class="card-header">
+                        <div class="avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="user-info">
+                            <h4>Nguyễn Văn A</h4>
+                            <p>Gia sư Toán - Khoa CNTT</p>
+                            <div class="rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <span>5.0 (15 đánh giá)</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p>Chuyên gia sư môn Toán, có kinh nghiệm 2 năm. Phương pháp dạy hiệu quả, dễ hiểu.</p>
+                        <div class="subjects">
+                            <span class="tag">Toán</span>
+                            <span class="tag">Lý</span>
+                            <span class="tag">Hóa</span>
+                        </div>
+                        <div class="price-free">
+                            <i class="fas fa-gift"></i>
+                            <strong>Miễn phí cho sinh viên VLU</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <h2 class="section-title">Tại sao chọn GiaSu Lang?</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Kết nối trực tiếp</h3>
+                    <p>Kết nối trực tiếp giữa gia sư và học viên, không qua trung gian, tiết kiệm chi phí.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Đảm bảo chất lượng</h3>
+                    <p>Gia sư được kiểm tra năng lực và có đánh giá từ học viên trước đó.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3>Linh hoạt thời gian</h3>
+                    <p>Đặt lịch học linh hoạt theo thời gian rảnh của cả gia sư và học viên.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <h3>Học tại nhà</h3>
+                    <p>Gia sư đến tận nhà hoặc học online, tiện lợi cho học viên.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tutors Section -->
+    <section id="tutors" class="tutors">
+        <div class="container">
+            <h2 class="section-title">Gia sư nổi bật</h2>
+            <div class="search-filters">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Tìm gia sư theo môn học, tên..." id="tutorSearch">
+                </div>
+                <div class="filters">
+                    <select id="subjectFilter">
+                        <option value="">Tất cả môn học</option>
+                        <option value="toan">Toán</option>
+                        <option value="ly">Lý</option>
+                        <option value="hoa">Hóa</option>
+                        <option value="van">Văn</option>
+                        <option value="anh">Tiếng Anh</option>
+                    </select>
+                    <select id="priceFilter">
+                        <option value="">Tất cả mức giá</option>
+                        <option value="0-100">Dưới 100k/giờ</option>
+                        <option value="100-200">100k - 200k/giờ</option>
+                        <option value="200+">Trên 200k/giờ</option>
+                    </select>
+                </div>
+            </div>
+            <div class="tutors-grid" id="tutorsGrid">
+                <!-- Tutors will be loaded here by JavaScript -->
+            </div>
+            <div class="load-more">
+                <button class="btn btn-outline" onclick="loadMoreTutors()">
+                    <i class="fas fa-plus"></i>
+                    Xem thêm gia sư
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <h2 class="section-title">Về chúng tôi</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <h3>Dự án GiaSu Lang</h3>
+                    <p>Được phát triển bởi team 3bro, GiaSu Lang là nền tảng số kết nối sinh viên có năng lực với những sinh viên cần hỗ trợ học tập tại Đại học Văn Lang.</p>
+                    <p>Dự án giải quyết vấn đề thiếu kết nối giữa gia sư tiềm năng và người học, giúp sinh viên tìm được gia sư phù hợp đồng thời tạo cơ hội cho những người khác kiếm thu nhập và chia sẻ kiến thức.</p>
+                    <div class="about-stats">
+                        <div class="about-stat">
+                            <div class="stat-number">2</div>
+                            <div class="stat-label">Tháng phát triển</div>
+                        </div>
+                        <div class="about-stat">
+                            <div class="stat-number">3</div>
+                            <div class="stat-label">Thành viên team</div>
+                        </div>
+                        <div class="about-stat">
+                            <div class="stat-number">100%</div>
+                            <div class="stat-label">Nội bộ VLU</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-image">
+                    <div class="team-card">
+                        <h4>Team 3bro</h4>
+                        <p>Đội ngũ phát triển</p>
+                        <div class="team-members">
+                            <div class="member">
+                                <div class="member-avatar">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <span>Member 1</span>
+                            </div>
+                            <div class="member">
+                                <div class="member-avatar">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <span>Member 2</span>
+                            </div>
+                            <div class="member">
+                                <div class="member-avatar">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <span>Member 3</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2 class="section-title">Liên hệ</h2>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <h4>Địa chỉ</h4>
+                            <p>Đại học Văn Lang, TP.HCM</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <h4>Email</h4>
+                            <p>contact@giasulang.edu.vn</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <div>
+                            <h4>Điện thoại</h4>
+                            <p>0123 456 789</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-form">
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <input type="text" placeholder="Họ và tên" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" placeholder="Email" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="tel" placeholder="Số điện thoại" required>
+                        </div>
+                        <div class="form-group">
+                            <textarea placeholder="Nội dung tin nhắn" rows="5" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-paper-plane"></i>
+                            Gửi tin nhắn
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span>GiaSu Lang</span>
+                    </div>
+                    <p>Nền tảng kết nối gia sư sinh viên tại Đại học Văn Lang</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Liên kết</h4>
+                    <ul>
+                        <li><a href="#home">Trang chủ</a></li>
+                        <li><a href="#tutors">Gia sư</a></li>
+                        <li><a href="#students">Học viên</a></li>
+                        <li><a href="#about">Giới thiệu</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Hỗ trợ</h4>
+                    <ul>
+                        <li><a href="#">Hướng dẫn sử dụng</a></li>
+                        <li><a href="#">Câu hỏi thường gặp</a></li>
+                        <li><a href="#">Chính sách bảo mật</a></li>
+                        <li><a href="#">Điều khoản sử dụng</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Liên hệ</h4>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> Đại học Văn Lang</li>
+                        <li><i class="fas fa-envelope"></i> contact@giasulang.edu.vn</li>
+                        <li><i class="fas fa-phone"></i> 0123 456 789</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 GiaSu Lang. Được phát triển bởi team 3bro.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modals -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Đăng nhập</h3>
+                <button class="close" onclick="closeModal('login')">&times;</button>
+            </div>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="loginRole">Vai trò</label>
+                    <select id="loginRole" required>
+                        <option value="">Chọn vai trò</option>
+                        <option value="student">Học viên</option>
+                        <option value="tutor">Gia sư</option>
+                        <option value="support">Trung tâm hỗ trợ sinh viên</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="loginEmail">Email</label>
+                    <input type="email" id="loginEmail" placeholder="Nhập email của bạn" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Mật khẩu</label>
+                    <input type="password" id="loginPassword" placeholder="Nhập mật khẩu" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">
+                    <i class="fas fa-sign-in-alt"></i>
+                    Đăng nhập
+                </button>
+            </form>
+            <div class="modal-switch">
+                <p>Chưa có tài khoản? <a href="#" onclick="switchModal('login', 'register')">Đăng ký</a></p>
+            </div>
+        </div>
+    </div>
+
+    <div id="registerModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Đăng ký</h3>
+                <button class="close" onclick="closeModal('register')">&times;</button>
+            </div>
+            <form id="registerForm">
+                <div class="form-group">
+                    <label for="registerName">Họ và tên</label>
+                    <input type="text" id="registerName" placeholder="Nhập họ và tên đầy đủ" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerEmail">Email</label>
+                    <input type="email" id="registerEmail" placeholder="Nhập email của bạn" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerPhone">Số điện thoại</label>
+                    <input type="tel" id="registerPhone" placeholder="Nhập số điện thoại" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerRole">Vai trò</label>
+                    <select id="registerRole" required>
+                        <option value="">Chọn vai trò</option>
+                        <option value="student">Học viên</option>
+                        <option value="tutor">Gia sư</option>
+                        <option value="support">Trung tâm hỗ trợ sinh viên</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="registerPassword">Mật khẩu</label>
+                    <input type="password" id="registerPassword" placeholder="Tạo mật khẩu" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerConfirmPassword">Xác nhận mật khẩu</label>
+                    <input type="password" id="registerConfirmPassword" placeholder="Nhập lại mật khẩu" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">
+                    <i class="fas fa-user-plus"></i>
+                    Đăng ký
+                </button>
+            </form>
+            <div class="modal-switch">
+                <p>Đã có tài khoản? <a href="#" onclick="switchModal('register', 'login')">Đăng nhập</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Student Verification Modal -->
+    <div id="verifyModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Xác minh sinh viên VLU</h3>
+                <button class="close" onclick="closeModal('verify')">&times;</button>
+            </div>
+            <div class="form-group">
+                <label for="studentId">Mã số sinh viên</label>
+                <input type="text" id="studentId" placeholder="Nhập mã số sinh viên VLU" required>
+            </div>
+            <div class="form-group">
+                <label for="studentName">Họ và tên</label>
+                <input type="text" id="studentName" placeholder="Nhập họ và tên đầy đủ" required>
+            </div>
+            <div class="form-group">
+                <label for="studentEmail">Email sinh viên</label>
+                <input type="email" id="studentEmail" placeholder="example@vanlanguni.vn" required>
+            </div>
+            <div class="form-group">
+                <label for="studentKhoa">Khoa</label>
+                <select id="studentKhoa" required>
+                    <option value="">Chọn khoa</option>
+                    <option value="cntt">Khoa Công nghệ Thông tin</option>
+                    <option value="kt">Khoa Kinh tế</option>
+                    <option value="nn">Khoa Ngoại ngữ</option>
+                    <option value="ktcn">Khoa Kỹ thuật Công nghệ</option>
+                    <option value="kh">Khoa Khoa học</option>
+                    <option value="xh">Khoa Xã hội</option>
+                    <option value="yt">Khoa Y tế</option>
+                    <option value="mt">Khoa Môi trường</option>
+                    <option value="khac">Khoa khác</option>
+                </select>
+            </div>
+            <button class="btn btn-primary" onclick="verifyStudent()" style="width: 100%;">
+                <i class="fas fa-check-circle"></i>
+                Xác minh sinh viên
+            </button>
+            <div class="modal-switch">
+                <p>Bạn đã có tài khoản? <a href="#" onclick="switchModal('verify', 'login')">Đăng nhập</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html> 

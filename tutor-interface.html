@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GiaSu Lang - Giao diện Gia sư</title>
+    <link rel="stylesheet" href="tutor-styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <i class="fas fa-chalkboard-teacher"></i>
+                <span>GiaSu Lang</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#dashboard" class="nav-link active">Dashboard</a></li>
+                <li><a href="#profile" class="nav-link">Hồ sơ</a></li>
+                <li><a href="#schedule" class="nav-link">Lịch dạy</a></li>
+                <li><a href="#history" class="nav-link">Lịch sử</a></li>
+                <li><a href="#courses" class="nav-link">Khóa học</a></li>
+            </ul>
+            <div class="nav-user">
+                <div class="user-info">
+                    <img src="https://via.placeholder.com/40" alt="Avatar" class="user-avatar">
+                    <span class="user-name">Nguyễn Văn A</span>
+                </div>
+                <button class="btn btn-outline" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Đăng xuất
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Dashboard Section -->
+        <section id="dashboard" class="dashboard-section">
+            <div class="container">
+                <div class="section-header">
+                    <h1>Dashboard Gia sư</h1>
+                    <p>Chào mừng bạn trở lại! Đây là tổng quan về hoạt động dạy học của bạn.</p>
+                </div>
+
+                <!-- Stats Cards -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>5</h3>
+                            <p>Buổi dạy hôm nay</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>12</h3>
+                            <p>Học viên đang dạy</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>4.8</h3>
+                            <p>Điểm đánh giá</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>156</h3>
+                            <p>Giờ đã dạy</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="quick-actions">
+                    <h2>Thao tác nhanh</h2>
+                    <div class="actions-grid">
+                        <button class="action-card" onclick="openModal('registerTutor')">
+                            <i class="fas fa-user-plus"></i>
+                            <h3>Đăng ký khóa học</h3>
+                            <p>Tạo hồ sơ khóa học mới</p>
+                        </button>
+                        <button class="action-card" onclick="openModal('joinCourse')">
+                            <i class="fas fa-graduation-cap"></i>
+                            <h3>Tham gia khóa học</h3>
+                            <p>Xác nhận vào lớp học</p>
+                        </button>
+                        <button class="action-card" onclick="scrollToSection('schedule')">
+                            <i class="fas fa-calendar-alt"></i>
+                            <h3>Xem lịch dạy</h3>
+                            <p>Kiểm tra lịch trình</p>
+                        </button>
+                        <button class="action-card" onclick="openModal('cancelSchedule')">
+                            <i class="fas fa-times-circle"></i>
+                            <h3>Hủy lịch dạy</h3>
+                            <p>Hủy buổi học</p>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Today's Schedule -->
+                <div class="today-schedule">
+                    <h2>Lịch dạy hôm nay</h2>
+                    <div class="schedule-list" id="todaySchedule">
+                        <!-- Schedule items will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Profile Section -->
+        <section id="profile" class="profile-section">
+            <div class="container">
+                <div class="section-header">
+                    <h1>Hồ sơ gia sư</h1>
+                    <p>Quản lý thông tin cá nhân và hồ sơ dạy học</p>
+                </div>
+
+                <div class="profile-content">
+                    <div class="profile-card">
+                        <div class="profile-header">
+                            <div class="profile-avatar">
+                                <img src="https://via.placeholder.com/120" alt="Avatar">
+                                <button class="edit-avatar">
+                                    <i class="fas fa-camera"></i>
+                                </button>
+                            </div>
+                            <div class="profile-info">
+                                <h2>Nguyễn Văn A</h2>
+                                <p class="profile-role">Gia sư Toán - Khoa CNTT</p>
+                                <div class="profile-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <span>5.0 (15 đánh giá)</span>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary" onclick="editProfile()">
+                                <i class="fas fa-edit"></i>
+                                Chỉnh sửa
+                            </button>
+                        </div>
+
+                        <div class="profile-details">
+                            <div class="detail-group">
+                                <h3>Thông tin cá nhân</h3>
+                                <div class="detail-item">
+                                    <label>Mã sinh viên:</label>
+                                    <span>SV00123456</span>
+                                </div>
+                                <div class="detail-item">
+                                    <label>Email:</label>
+                                    <span>nguyenvana@vanlanguni.vn</span>
+                                </div>
+                                <div class="detail-item">
+                                    <label>Số điện thoại:</label>
+                                    <span>0123 456 789</span>
+                                </div>
+                                <div class="detail-item">
+                                    <label>Khoa:</label>
+                                    <span>Khoa Công nghệ Thông tin</span>
+                                </div>
+                                <div class="detail-item">
+                                    <label>Năm học:</label>
+                                    <span>Năm 3</span>
+                                </div>
+                            </div>
+
+                            <div class="detail-group">
+                                <h3>Thông tin dạy học</h3>
+                                <div class="detail-item">
+                                    <label>Môn dạy:</label>
+                                    <div class="subjects-tags">
+                                        <span class="tag">Toán</span>
+                                        <span class="tag">Lý</span>
+                                        <span class="tag">Hóa</span>
+                                    </div>
+                                </div>
+                                <div class="detail-item">
+                                    <label>Kinh nghiệm:</label>
+                                    <span>2 năm</span>
+                                </div>
+                                <div class="detail-item">
+                                    <label>Hình thức:</label>
+                                    <span class="status free">Miễn phí</span>
+                                </div>
+                                <div class="detail-item">
+                                    <label>Trạng thái:</label>
+                                    <span class="status active">Đang hoạt động</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Schedule Section -->
+        <section id="schedule" class="schedule-section">
+            <div class="container">
+                <div class="section-header">
+                    <h1>Lịch dạy</h1>
+                    <p>Quản lý lịch trình dạy học của bạn</p>
+                </div>
+
+                <div class="schedule-controls">
+                    <div class="date-navigation">
+                        <button class="btn btn-outline" onclick="previousWeek()">
+                            <i class="fas fa-chevron-left"></i>
+                            Tuần trước
+                        </button>
+                        <h3 id="currentWeek">Tuần 15/01/2024 - 21/01/2024</h3>
+                        <button class="btn btn-outline" onclick="nextWeek()">
+                            Tuần sau
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                    <div class="view-options">
+                        <button class="btn btn-outline active" onclick="switchView('week')">Tuần</button>
+                        <button class="btn btn-outline" onclick="switchView('month')">Tháng</button>
+                    </div>
+                </div>
+
+                <div class="schedule-calendar" id="scheduleCalendar">
+                    <!-- Calendar will be generated here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- History Section -->
+        <section id="history" class="history-section">
+            <div class="container">
+                <div class="section-header">
+                    <h1>Lịch sử dạy</h1>
+                    <p>Xem lại các buổi học đã hoàn thành</p>
+                </div>
+
+                <div class="history-filters">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Tìm kiếm theo tên học viên, môn học..." id="historySearch">
+                    </div>
+                    <div class="filters">
+                        <select id="historySubjectFilter">
+                            <option value="">Tất cả môn học</option>
+                            <option value="toan">Toán</option>
+                            <option value="ly">Lý</option>
+                            <option value="hoa">Hóa</option>
+                        </select>
+                        <select id="historyStatusFilter">
+                            <option value="">Tất cả trạng thái</option>
+                            <option value="completed">Đã hoàn thành</option>
+                            <option value="cancelled">Đã hủy</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="history-list" id="historyList">
+                    <!-- History items will be loaded here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Courses Section -->
+        <section id="courses" class="courses-section">
+            <div class="container">
+                <div class="section-header">
+                    <h1>Khóa học đang dạy</h1>
+                    <p>Quản lý các khóa học và học viên</p>
+                </div>
+
+                <div class="courses-grid" id="coursesGrid">
+                    <!-- Course cards will be loaded here -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modals -->
+    <!-- Register Tutor Modal -->
+    <div id="registerTutorModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Đăng ký khóa học</h3>
+                <button class="close" onclick="closeModal('registerTutor')">&times;</button>
+            </div>
+            <form id="registerTutorForm">
+                <div class="form-section">
+                    <h4>Thông tin dạy học</h4>
+                    <!-- TODO: Lấy khoa từ hồ sơ cá nhân, ví dụ: var userFaculty = ...; -->
+                    <div class="form-group">
+                        <label>Môn học có thể dạy *</label>
+                        <div class="checkbox-group" id="subjectsContainer">
+                            <p class="no-subjects">Vui lòng chọn môn học phù hợp với khoa của bạn</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="tutorExperience">Mô tả khóa học</label>
+                    <textarea id="tutorExperience" placeholder="Nhập mô tả khóa học"></textarea>
+                </div>
+                <!-- Course Duration Section -->
+                <div class="form-group">
+                    <label>Thời gian khóa học</label>
+                    <div class="date-range-container">
+                        <div class="date-input-group">
+                            <label for="courseStartDate">Ngày bắt đầu khóa học *</label>
+                            <input type="date" id="courseStartDate" required>
+                        </div>
+                        <div class="date-input-group">
+                            <label for="courseEndDate">Ngày kết thúc khóa học *</label>
+                            <input type="date" id="courseEndDate" required>
+                        </div>
+                    </div>
+                    <div class="date-validation" id="dateValidation" style="display: none;">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span id="dateValidationMessage"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="tutorSchedule">Lịch dạy có thể</label>
+                    <div class="schedule-grid">
+                        <div class="schedule-day">
+                            <h5>Thứ 2</h5>
+                            <input type="time" class="time-start">
+                            <input type="time" class="time-end">
+                        </div>
+                        <div class="schedule-day">
+                            <h5>Thứ 3</h5>
+                            <input type="time" class="time-start">
+                            <input type="time" class="time-end">
+                        </div>
+                        <div class="schedule-day">
+                            <h5>Thứ 4</h5>
+                            <input type="time" class="time-start">
+                            <input type="time" class="time-end">
+                        </div>
+                        <div class="schedule-day">
+                            <h5>Thứ 5</h5>
+                            <input type="time" class="time-start">
+                            <input type="time" class="time-end">
+                        </div>
+                        <div class="schedule-day">
+                            <h5>Thứ 6</h5>
+                            <input type="time" class="time-start">
+                            <input type="time" class="time-end">
+                        </div>
+                        <div class="schedule-day">
+                            <h5>Thứ 7</h5>
+                            <input type="time" class="time-start">
+                            <input type="time" class="time-end">
+                        </div>
+                        <div class="schedule-day">
+                            <h5>Chủ nhật</h5>
+                            <input type="time" class="time-start">
+                            <input type="time" class="time-end">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="studentId">Mã sinh viên *</label>
+                    <input type="text" id="studentId" required placeholder="Nhập mã sinh viên">
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn btn-outline" onclick="closeModal('registerTutor')">Hủy</button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-paper-plane"></i>
+                        Gửi hồ sơ
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Online Teaching Room Modal -->
+    <div id="teachingRoomModal" class="modal teaching-room-modal">
+        <div class="modal-content teaching-room-content">
+            <div class="modal-header teaching-room-header">
+                <div class="room-info">
+                    <h3 id="roomTitle">Phòng dạy online</h3>
+                    <p id="roomDetails">Đang kết nối...</p>
+                </div>
+                <div class="room-controls">
+                    <div class="timer" id="teachingTimer">00:00:00</div>
+                    <button class="close" onclick="closeModal('teachingRoom')">&times;</button>
+                </div>
+            </div>
+            
+            <!-- Time Warning Notification -->
+            <div id="timeWarning" class="time-warning" style="display: none;">
+                <div class="warning-content">
+                    <i class="fas fa-clock"></i>
+                    <span id="warningMessage">Còn 10 phút nữa sẽ kết thúc buổi học</span>
+                    <button class="btn btn-sm btn-primary" onclick="extendSession()">Gia hạn thêm 30 phút</button>
+                </div>
+            </div>
+            
+            <div class="teaching-room-body">
+                <div class="video-container">
+                    <div class="main-video">
+                        <div class="video-placeholder" id="mainVideo">
+                            <i class="fas fa-user"></i>
+                            <span>Video chính</span>
+                        </div>
+                        <div class="video-controls">
+                            <button class="btn btn-sm btn-outline" onclick="toggleVideo()">
+                                <i class="fas fa-video" id="videoIcon"></i>
+                            </button>
+                            <button class="fas fa-microphone" onclick="toggleAudio()">
+                                <i class="fas fa-microphone" id="audioIcon"></i>
+                            </button>
+                            <button class="btn btn-sm btn-outline" onclick="toggleScreenShare()">
+                                <i class="fas fa-desktop" id="screenIcon"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="participant-video">
+                        <div class="video-placeholder" id="participantVideo">
+                            <i class="fas fa-user"></i>
+                            <span>Học viên</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="teaching-sidebar">
+                    <div class="chat-section">
+                        <div class="chat-header">
+                            <h4>Chat</h4>
+                            <span class="online-indicator">
+                                <i class="fas fa-circle"></i>
+                                Online
+                            </span>
+                        </div>
+                        <div class="chat-messages" id="chatMessages">
+                            <div class="message system">
+                                <span>Hệ thống: Buổi học đã bắt đầu!</span>
+                            </div>
+                        </div>
+                        <div class="chat-input">
+                            <input type="text" placeholder="Nhập tin nhắn..." id="chatInput">
+                            <button onclick="sendMessage()">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="tools-section">
+                        <h4>Công cụ dạy học</h4>
+                        <div class="tools-grid">
+                            <button class="tool-btn" onclick="openWhiteboard()">
+                                <i class="fas fa-chalkboard"></i>
+                                <span>Bảng trắng</span>
+                            </button>
+                            <button class="tool-btn" onclick="shareFile()">
+                                <i class="fas fa-file-upload"></i>
+                                <span>Chia sẻ file</span>
+                            </button>
+                            <button class="tool-btn" onclick="openNotes()">
+                                <i class="fas fa-sticky-note"></i>
+                                <span>Ghi chú</span>
+                            </button>
+                            <button class="tool-btn" onclick="openQuiz()">
+                                <i class="fas fa-question-circle"></i>
+                                <span>Bài tập</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="teaching-room-footer">
+                <div class="session-info">
+                    <span id="sessionTime">Bắt đầu: <span id="sessionStartTime"></span></span>
+                    <span id="sessionDuration">Thời gian: <span id="currentDuration">00:00:00</span></span>
+                </div>
+                <div class="session-actions">
+                    <button class="btn btn-outline" onclick="pauseSession()">
+                        <i class="fas fa-pause"></i>
+                        Tạm dừng
+                    </button>
+                    <button class="btn btn-danger" onclick="endSession()">
+                        <i class="fas fa-stop"></i>
+                        Kết thúc
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Rating Modal -->
+    <div id="ratingModal" class="modal">
+        <div class="modal-content rating-content">
+            <div class="modal-header">
+                <h3>Đánh giá buổi học</h3>
+                <button class="close" onclick="closeModal('rating')">&times;</button>
+            </div>
+            <div class="rating-body">
+                <div class="session-summary">
+                    <h4>Thông tin buổi học</h4>
+                    <div class="summary-details">
+                        <p><strong>Khóa học:</strong> <span id="ratingCourseTitle"></span></p>
+                        <p><strong>Gia sư:</strong> <span id="ratingTutorName"></span></p>
+                        <p><strong>Thời gian:</strong> <span id="ratingSessionTime"></span></p>
+                        <p><strong>Ngày:</strong> <span id="ratingSessionDate"></span></p>
+                    </div>
+                </div>
+                
+                <div class="rating-section">
+                    <h4>Đánh giá chất lượng dạy học</h4>
+                    <div class="rating-stars">
+                        <div class="star-group">
+                            <label>Kiến thức chuyên môn:</label>
+                            <div class="stars" data-rating="0">
+                                <i class="fas fa-star" data-value="1"></i>
+                                <i class="fas fa-star" data-value="2"></i>
+                                <i class="fas fa-star" data-value="3"></i>
+                                <i class="fas fa-star" data-value="4"></i>
+                                <i class="fas fa-star" data-value="5"></i>
+                            </div>
+                            <span class="rating-text">Chưa đánh giá</span>
+                        </div>
+                        
+                        <div class="star-group">
+                            <label>Phương pháp giảng dạy:</label>
+                            <div class="stars" data-rating="0">
+                                <i class="fas fa-star" data-value="1"></i>
+                                <i class="fas fa-star" data-value="2"></i>
+                                <i class="fas fa-star" data-value="3"></i>
+                                <i class="fas fa-star" data-value="4"></i>
+                                <i class="fas fa-star" data-value="5"></i>
+                            </div>
+                            <span class="rating-text">Chưa đánh giá</span>
+                        </div>
+                        
+                        <div class="star-group">
+                            <label>Thái độ giảng dạy:</label>
+                            <div class="stars" data-rating="0">
+                                <i class="fas fa-star" data-value="1"></i>
+                                <i class="fas fa-star" data-value="2"></i>
+                                <i class="fas fa-star" data-value="3"></i>
+                                <i class="fas fa-star" data-value="4"></i>
+                                <i class="fas fa-star" data-value="5"></i>
+                            </div>
+                            <span class="rating-text">Chưa đánh giá</span>
+                        </div>
+                        
+                        <div class="star-group">
+                            <label>Hiệu quả học tập:</label>
+                            <div class="stars" data-rating="0">
+                                <i class="fas fa-star" data-value="1"></i>
+                                <i class="fas fa-star" data-value="2"></i>
+                                <i class="fas fa-star" data-value="3"></i>
+                                <i class="fas fa-star" data-value="4"></i>
+                                <i class="fas fa-star" data-value="5"></i>
+                            </div>
+                            <span class="rating-text">Chưa đánh giá</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="feedback-section">
+                    <h4>Nhận xét chi tiết</h4>
+                    <textarea id="ratingFeedback" placeholder="Hãy chia sẻ cảm nhận của bạn về buổi học này..."></textarea>
+                </div>
+                
+                <div class="rating-actions">
+                    <button class="btn btn-outline" onclick="skipRating()">Bỏ qua</button>
+                    <button class="btn btn-primary" onclick="submitRating()">
+                        <i class="fas fa-paper-plane"></i>
+                        Gửi đánh giá
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Join Course Modal -->
+    <div id="joinCourseModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Tham gia khóa học</h3>
+                <button class="close" onclick="closeModal('joinCourse')">&times;</button>
+            </div>
+            <div class="course-list" id="joinCourseList">
+                <!-- Course list will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Cancel Schedule Modal -->
+    <div id="cancelScheduleModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Hủy lịch dạy</h3>
+                <button class="close" onclick="closeModal('cancelSchedule')">&times;</button>
+            </div>
+            <form id="cancelScheduleForm">
+                <div class="form-group">
+                    <label for="cancelCourse">Chọn buổi học *</label>
+                    <select id="cancelCourse" required>
+                        <option value="">Chọn buổi học cần hủy</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="cancelReason">Lý do hủy *</label>
+                    <textarea id="cancelReason" placeholder="Nhập lý do hủy buổi học" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="rescheduleDate">Ngày dạy lại (nếu có)</label>
+                    <input type="datetime-local" id="rescheduleDate">
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-outline" onclick="closeModal('cancelSchedule')">Hủy</button>
+                    <button type="submit" class="btn btn-danger">
+                        <i class="fas fa-times"></i>
+                        Gửi yêu cầu hủy
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="tutor-script.js"></script>
+</body>
+</html>
