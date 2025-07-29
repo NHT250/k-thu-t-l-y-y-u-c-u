@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="support-styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="translations.js"></script>
 </head>
 <body>
     <!-- Navigation -->
@@ -17,19 +18,23 @@
                 <span>Trung tâm Hỗ trợ Sinh viên</span>
             </div>
             <ul class="nav-menu">
-                <li><a href="#overview" class="nav-link active">Tổng quan</a></li>
-                <li><a href="#tutor-approval" class="nav-link">Duyệt gia sư</a></li>
-                <li><a href="#course-approval" class="nav-link">Duyệt khóa học</a></li>
-                <li><a href="#history" class="nav-link">Lịch sử</a></li>
+                <li><a href="#overview" class="nav-link active" data-translate="overview">Tổng quan</a></li>
+                <li><a href="#tutor-approval" class="nav-link" data-translate="tutor_approval">Duyệt gia sư</a></li>
+                <li><a href="#course-approval" class="nav-link" data-translate="course_approval">Duyệt khóa học</a></li>
+                <li><a href="#history" class="nav-link" data-translate="history">Lịch sử</a></li>
             </ul>
             <div class="nav-user">
+                <div class="language-switcher">
+                    <button onclick="changeLanguage('vi')" class="lang-btn ${currentLanguage === 'vi' ? 'active' : ''}">VI</button>
+                    <button onclick="changeLanguage('en')" class="lang-btn ${currentLanguage === 'en' ? 'active' : ''}">EN</button>
+                </div>
                 <div class="user-info">
                     <img src="https://via.placeholder.com/40" alt="Avatar" class="user-avatar">
-                    <span class="user-name">Nhân viên hỗ trợ</span>
+                    <span class="user-name">Admin</span>
                 </div>
                 <button class="btn btn-outline" onclick="logout()">
                     <i class="fas fa-sign-out-alt"></i>
-                    Đăng xuất
+                    <span data-translate="logout">Đăng xuất</span>
                 </button>
             </div>
         </div>

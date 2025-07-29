@@ -479,62 +479,62 @@ function viewApplicationDetail(appId) {
     const detailContainer = document.getElementById('applicationDetail');
     detailContainer.innerHTML = `
         <div class="detail-section">
-            <h4>Thông tin cá nhân</h4>
+            <h4 data-translate="personal_info">Thông tin cá nhân</h4>
             <div class="detail-grid">
                 <div class="detail-item">
-                    <span class="detail-label">Họ và tên</span>
+                    <span class="detail-label" data-translate="full_name">Họ và tên</span>
                     <span class="detail-value">${app.name}</span>
                 </div>
                 <div class="detail-item">
-                    <span class="detail-label">Mã sinh viên</span>
+                    <span class="detail-label" data-translate="student_id">Mã sinh viên</span>
                     <span class="detail-value">${app.studentId ? app.studentId : 'VD123456'}</span>
                 </div>
                 <div class="detail-item">
-                    <span class="detail-label">Email</span>
+                    <span class="detail-label" data-translate="email">Email</span>
                     <span class="detail-value">${app.email}</span>
                 </div>
                 <div class="detail-item">
-                    <span class="detail-label">Số điện thoại</span>
+                    <span class="detail-label" data-translate="phone">Số điện thoại</span>
                     <span class="detail-value">${app.phone}</span>
                 </div>
                 <div class="detail-item">
-                    <span class="detail-label">Khoa</span>
+                    <span class="detail-label" data-translate="faculty">Khoa</span>
                     <span class="detail-value">${app.khoa}</span>
                 </div>
                 <div class="detail-item">
-                    <span class="detail-label">Năm học</span>
+                    <span class="detail-label" data-translate="year">Năm học</span>
                     <span class="detail-value">${app.year}</span>
                 </div>
                 <div class="detail-item">
-                    <span class="detail-label">Môn học có thể dạy</span>
+                    <span class="detail-label" data-translate="subjects_can_teach">Môn học có thể dạy</span>
                     <span class="detail-value">${app.subjects.join(', ')}</span>
                 </div>
             </div>
         </div>
         <div class="detail-section">
-            <h4>Kinh nghiệm dạy học</h4>
+            <h4 data-translate="course_description">Mô tả khóa học</h4>
             <p>${app.experience}</p>
         </div>
         <div class="detail-section">
-            <h4>Chứng chỉ chuyên ngành</h4>
+            <h4 data-translate="certificates">Chứng chỉ chuyên ngành</h4>
             <ul class="file-list">
-                ${(app.certificates && app.certificates.length) ? app.certificates.map(f => `<li><a href='${f.url}' target='_blank'><i class='fas fa-file'></i> ${f.name}</a></li>`).join('') : '<li>Không có</li>'}
+                ${(app.certificates && app.certificates.length) ? app.certificates.map(f => `<li><a href='${f.url}' target='_blank'><i class='fas fa-file'></i> ${f.name}</a></li>`).join('') : '<li data-translate="no_data">Không có</li>'}
             </ul>
-            <h4>Ảnh khen thưởng</h4>
+            <h4 data-translate="awards">Ảnh khen thưởng</h4>
             <ul class="file-list">
-                ${(app.awards && app.awards.length) ? app.awards.map(f => `<li><a href='${f.url}' target='_blank'><i class='fas fa-image'></i> ${f.name}</a></li>`).join('') : '<li>Không có</li>'}
+                ${(app.awards && app.awards.length) ? app.awards.map(f => `<li><a href='${f.url}' target='_blank'><i class='fas fa-image'></i> ${f.name}</a></li>`).join('') : '<li data-translate="no_data">Không có</li>'}
             </ul>
         </div>
         <div class="detail-section">
-            <h4>Thông tin đăng ký</h4>
+            <h4 data-translate="registration_info">Thông tin đăng ký</h4>
             <div class="detail-grid">
                 <div class="detail-item">
-                    <span class="detail-label">Ngày nộp hồ sơ</span>
+                    <span class="detail-label" data-translate="submission_date">Ngày nộp hồ sơ</span>
                     <span class="detail-value">${formatDate(app.submittedDate)}</span>
                 </div>
                 <div class="detail-item">
-                    <span class="detail-label">Trạng thái</span>
-                    <span class="detail-value">${app.status === 'pending' ? 'Chờ duyệt' : 'Đã duyệt'}</span>
+                    <span class="detail-label" data-translate="status">Trạng thái</span>
+                    <span class="detail-value" data-translate="${app.status === 'pending' ? 'pending' : 'approved'}">${app.status === 'pending' ? 'Chờ duyệt' : 'Đã duyệt'}</span>
                 </div>
             </div>
         </div>

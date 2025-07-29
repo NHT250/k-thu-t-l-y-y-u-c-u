@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="student-styles.css">
+    <script src="translations.js"></script>
 </head>
 <body>
     <!-- Header -->
@@ -24,13 +25,17 @@
                     <a href="#history" class="nav-link">Lịch sử học tập</a>
                 </nav>
                 <div class="user-menu">
+                    <div class="language-switcher">
+                        <button onclick="changeLanguage('vi')" class="lang-btn ${currentLanguage === 'vi' ? 'active' : ''}">VI</button>
+                        <button onclick="changeLanguage('en')" class="lang-btn ${currentLanguage === 'en' ? 'active' : ''}">EN</button>
+                    </div>
                     <div class="user-info">
                         <i class="fas fa-user-circle"></i>
-                        <span id="userName">Học viên</span>
+                        <span id="userName" data-translate="student">Học viên</span>
                     </div>
                     <button class="logout-btn" onclick="logout()">
                         <i class="fas fa-sign-out-alt"></i>
-                        Đăng xuất
+                        <span data-translate="logout">Đăng xuất</span>
                     </button>
                 </div>
             </div>
