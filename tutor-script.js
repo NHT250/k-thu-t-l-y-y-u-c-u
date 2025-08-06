@@ -33,85 +33,6 @@ const facultySubjects = {
             { value: 'toan', label: 'Toán rời rạc' },
             { value: 'ly', label: 'Vật lý đại cương' }
         ]
-    },
-    kt: {
-        name: 'Khoa Kinh tế',
-        subjects: [
-            { value: 'kinhte', label: 'Kinh tế học' },
-            { value: 'ketoan', label: 'Kế toán' },
-            { value: 'taichinh', label: 'Tài chính' },
-            { value: 'marketing', label: 'Marketing' },
-            { value: 'quanly', label: 'Quản lý kinh doanh' },
-            { value: 'toan', label: 'Toán kinh tế' },
-            { value: 'thongke', label: 'Thống kê' }
-        ]
-    },
-    nn: {
-        name: 'Khoa Ngoại ngữ',
-        subjects: [
-            { value: 'anh', label: 'Tiếng Anh' },
-            { value: 'phap', label: 'Tiếng Pháp' },
-            { value: 'duc', label: 'Tiếng Đức' },
-            { value: 'nhat', label: 'Tiếng Nhật' },
-            { value: 'han', label: 'Tiếng Hàn' },
-            { value: 'trung', label: 'Tiếng Trung' },
-            { value: 'van', label: 'Văn học nước ngoài' }
-        ]
-    },
-    ktcn: {
-        name: 'Khoa Kỹ thuật Công nghệ',
-        subjects: [
-            { value: 'dien', label: 'Kỹ thuật điện' },
-            { value: 'co', label: 'Kỹ thuật cơ khí' },
-            { value: 'xaydung', label: 'Kỹ thuật xây dựng' },
-            { value: 'hoa', label: 'Kỹ thuật hóa học' },
-            { value: 'toan', label: 'Toán kỹ thuật' },
-            { value: 'ly', label: 'Vật lý kỹ thuật' }
-        ]
-    },
-    kh: {
-        name: 'Khoa Khoa học',
-        subjects: [
-            { value: 'toan', label: 'Toán học' },
-            { value: 'ly', label: 'Vật lý' },
-            { value: 'hoa', label: 'Hóa học' },
-            { value: 'sinh', label: 'Sinh học' },
-            { value: 'dia', label: 'Địa lý' },
-            { value: 'thongke', label: 'Thống kê' }
-        ]
-    },
-    xh: {
-        name: 'Khoa Xã hội',
-        subjects: [
-            { value: 'van', label: 'Văn học' },
-            { value: 'lichsu', label: 'Lịch sử' },
-            { value: 'tamly', label: 'Tâm lý học' },
-            { value: 'xahoi', label: 'Xã hội học' },
-            { value: 'trienlam', label: 'Triết học' },
-            { value: 'ngonngu', label: 'Ngôn ngữ học' }
-        ]
-    },
-    yt: {
-        name: 'Khoa Y tế',
-        subjects: [
-            { value: 'y', label: 'Y học cơ bản' },
-            { value: 'duoc', label: 'Dược học' },
-            { value: 'yte', label: 'Y tế công cộng' },
-            { value: 'hoa', label: 'Hóa sinh' },
-            { value: 'sinh', label: 'Sinh học y học' },
-            { value: 'toan', label: 'Toán y học' }
-        ]
-    },
-    mt: {
-        name: 'Khoa Môi trường',
-        subjects: [
-            { value: 'moitruong', label: 'Khoa học môi trường' },
-            { value: 'sinh', label: 'Sinh thái học' },
-            { value: 'hoa', label: 'Hóa học môi trường' },
-            { value: 'dia', label: 'Địa chất môi trường' },
-            { value: 'toan', label: 'Toán môi trường' },
-            { value: 'ly', label: 'Vật lý môi trường' }
-        ]
     }
 };
 
@@ -135,7 +56,7 @@ const sampleTutors = [
         phone: "0123 456 789",
         khoa: "Khoa Công nghệ Thông tin",
         year: "Năm 3",
-        subjects: ["Toán", "Lý", "Hóa"],
+        subjects: [" Toán rời rạc", " Lập trình Web", "Vật lý đại cương"],
         experience: "2 năm",
         rating: 5.0,
         reviews: 15,
@@ -149,8 +70,8 @@ function generateSampleCourses() {
     const days = ['Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7', 'Chủ nhật'];
     const subjects = ['Toán', 'Lý', 'Hóa', 'Văn', 'Tiếng Anh'];
     const courseTitles = [
-        'Toán cơ bản', 'Lý 12', 'Hóa học cơ bản', 'Văn học Việt Nam', 'Tiếng Anh giao tiếp',
-        'Toán nâng cao', 'Lý cơ bản', 'Hóa nâng cao', 'Văn học hiện đại', 'Tiếng Anh thương mại'
+        'Toán cơ bản', 'Toán rời rạc', 'Lập trình Web', 'Vật lý đại cương', 'Toán nâng cao',
+        'Toán nâng cao', 'Lý cơ bản', 'Hóa nâng cao', 'Lập trình Web', 'Tiếng Anh thương mại'
     ];
     const students = [
         'Trần Thị B', 'Lê Văn C', 'Phạm Thị D', 'Nguyễn Văn E', 'Hoàng Thị F',
@@ -201,8 +122,8 @@ const sampleHistory = [
         id: 1,
         date: "2024-01-10",
         time: "14:00 - 16:00",
-        title: "Toán cơ bản",
-        subject: "Toán",
+        title: "Lập trình Web",
+        subject: "Lập Trình",
         student: "Trần Thị B",
         status: "completed",
         rating: 5
@@ -211,7 +132,7 @@ const sampleHistory = [
         id: 2,
         date: "2024-01-08",
         time: "16:00 - 18:00",
-        title: "Lý 12",
+        title: "Vật lý đại cương",
         subject: "Lý",
         student: "Lê Văn C",
         status: "completed",
@@ -227,6 +148,7 @@ document.addEventListener('DOMContentLoaded', function() {
     loadCourses();
     generateCalendar();
     setupEventListeners();
+    hienThiMonHoc(); // Hiển thị danh sách môn học khi trang được tải
 });
 
 // Initialize Dashboard
@@ -536,6 +458,8 @@ function openModal(modalId) {
             loadCourseList();
         } else if (modalId === 'cancelSchedule') {
             loadCancelableCourses();
+        } else if (modalId === 'registerTutor') {
+            hienThiMonHoc(); // Hiển thị danh sách môn học khi mở modal
         }
     }
 }
@@ -602,8 +526,8 @@ function handleRegisterTutor(e) {
     // Get form data
     const formData = new FormData(e.target);
     const tutorData = {
-        faculty: document.getElementById('tutorFaculty').value,
-        subjects: Array.from(document.querySelectorAll('#subjectsContainer input[type="checkbox"]:checked')).map(cb => cb.value),
+        faculty: 'cntt', // Cố định chuyên ngành là Công nghệ Thông tin
+        subject: document.querySelector('#subjectsContainer input[type="radio"]:checked')?.value || '',
         experience: document.getElementById('tutorExperience').value,
         courseStartDate: document.getElementById('courseStartDate').value,
         courseEndDate: document.getElementById('courseEndDate').value,
@@ -613,8 +537,8 @@ function handleRegisterTutor(e) {
     };
     
     // Validate required fields
-    if (!tutorData.faculty || tutorData.subjects.length === 0) {
-        alert('Vui lòng chọn khoa chuyên ngành và ít nhất một môn học');
+    if (!tutorData.subject) {
+        alert('Vui lòng chọn một môn học');
         return;
     }
     
@@ -1058,7 +982,7 @@ function filterHistory() {
     const filteredHistory = sampleHistory.filter(item => {
         const matchesSearch = item.title.toLowerCase().includes(searchTerm) ||
                              item.student.toLowerCase().includes(searchTerm);
-        const matchesSubject = !subjectFilter || item.subject.toLowerCase() === subjectFilter;
+        const matchesSubject = !subjectFilter || item.subject.toLowerCase === subjectFilter;
         const matchesStatus = !statusFilter || item.status === statusFilter;
         
         return matchesSearch && matchesSubject && matchesStatus;
@@ -1165,25 +1089,18 @@ function logout() {
     }
 }
 
-// Update subjects based on faculty selection
-function updateSubjects() {
-    const facultySelect = document.getElementById('tutorFaculty');
+// Display subjects for Công nghệ Thông tin
+function hienThiMonHoc() {
     const subjectsContainer = document.getElementById('subjectsContainer');
-    const selectedFaculty = facultySelect.value;
     
-    if (!selectedFaculty) {
-        subjectsContainer.innerHTML = '<p class="no-subjects">Vui lòng chọn khoa chuyên ngành trước</p>';
-        return;
-    }
-    
-    const faculty = facultySubjects[selectedFaculty];
+    const faculty = facultySubjects['cntt'];
     if (!faculty) return;
     
     let subjectsHTML = '';
     faculty.subjects.forEach(subject => {
         subjectsHTML += `
-            <label class="checkbox-item">
-                <input type="checkbox" value="${subject.value}">
+            <label class="nhan-radio">
+                <input type="radio" name="subject" value="${subject.value}" required>
                 <span>${subject.label}</span>
             </label>
         `;

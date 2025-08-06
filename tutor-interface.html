@@ -21,7 +21,7 @@
                 <li><a href="#profile" class="nav-link">Hồ sơ</a></li>
                 <li><a href="#schedule" class="nav-link">Lịch dạy</a></li>
                 <li><a href="#history" class="nav-link">Lịch sử</a></li>
-                <li><a href="#courses" class="nav-link">Khóa học</a></li>
+                <li><a href="#courses" class="nav-link">Khóa dạy</a></li>
             </ul>
             <div class="nav-user">
                 <div class="user-info">
@@ -92,8 +92,8 @@
                     <div class="actions-grid">
                         <button class="action-card" onclick="openModal('registerTutor')">
                             <i class="fas fa-user-plus"></i>
-                            <h3>Đăng ký gia sư</h3>
-                            <p>Tạo hồ sơ gia sư mới</p>
+                            <h3>Tạo khóa học</h3>
+                            <p>Tạo khóa học mới</p>
                         </button>
                         <button class="action-card" onclick="openModal('joinCourse')">
                             <i class="fas fa-graduation-cap"></i>
@@ -188,9 +188,9 @@
                                 <div class="detail-item">
                                     <label>Môn dạy:</label>
                                     <div class="subjects-tags">
-                                        <span class="tag">Toán</span>
-                                        <span class="tag">Lý</span>
-                                        <span class="tag">Hóa</span>
+                                        <span class="tag">Vật lý đại cương</span>
+                                        <span class="tag">Toán rời rạc</span>
+                                        <span class="tag">Lập trình Web</span>
                                     </div>
                                 </div>
                                 <div class="detail-item">
@@ -295,137 +295,120 @@
 
     <!-- Modals -->
     <!-- Register Tutor Modal -->
-    <div id="registerTutorModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Đăng ký gia sư</h3>
-                <button class="close" onclick="closeModal('registerTutor')">&times;</button>
-            </div>
-            <form id="registerTutorForm">
-                <div class="form-section">
-                    <h4>Thông tin dạy học</h4>
-                    <div class="form-group">
-                        <label for="tutorFaculty">Khoa chuyên ngành *</label>
-                        <select id="tutorFaculty" required onchange="updateSubjects()">
-                            <option value="">Chọn khoa chuyên ngành</option>
-                            <option value="cntt">Khoa Công nghệ Thông tin</option>
-                            <option value="kt">Khoa Kinh tế</option>
-                            <option value="nn">Khoa Ngoại ngữ</option>
-                            <option value="ktcn">Khoa Kỹ thuật Công nghệ</option>
-                            <option value="kh">Khoa Khoa học</option>
-                            <option value="xh">Khoa Xã hội</option>
-                            <option value="yt">Khoa Y tế</option>
-                            <option value="mt">Khoa Môi trường</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Môn học có thể dạy *</label>
-                        <div class="checkbox-group" id="subjectsContainer">
-                            <p class="no-subjects">Vui lòng chọn khoa chuyên ngành trước</p>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="tutorExperience">Kinh nghiệm dạy học</label>
-                        <textarea id="tutorExperience" placeholder="Mô tả kinh nghiệm dạy học của bạn"></textarea>
-                    </div>
-                    
-                    <!-- Course Duration Section -->
-                    <div class="form-group">
-                        <label>Thời gian khóa học</label>
-                        <div class="date-range-container">
-                            <div class="date-input-group">
-                                <label for="courseStartDate">Ngày bắt đầu khóa học *</label>
-                                <input type="date" id="courseStartDate" required>
-                            </div>
-                            <div class="date-input-group">
-                                <label for="courseEndDate">Ngày kết thúc khóa học *</label>
-                                <input type="date" id="courseEndDate" required>
-                            </div>
-                        </div>
-                        <div class="date-validation" id="dateValidation" style="display: none;">
-                            <i class="fas fa-exclamation-triangle"></i>
-                            <span id="dateValidationMessage"></span>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>Chứng chỉ và thành tích</label>
-                        <div class="file-upload-section">
-                            <div class="file-upload-group">
-                                <label for="certificateFiles">Chứng chỉ chuyên ngành</label>
-                                <div class="file-upload-area" onclick="document.getElementById('certificateFiles').click()">
-                                    <i class="fas fa-file-upload"></i>
-                                    <span>Click để chọn file hoặc kéo thả file vào đây</span>
-                                    <small>Hỗ trợ: PDF, JPG, PNG (Tối đa 5MB/file)</small>
-                                </div>
-                                <input type="file" id="certificateFiles" multiple accept=".pdf,.jpg,.jpeg,.png" style="display: none;" onchange="handleFileUpload(this, 'certificateList')">
-                                <div class="file-list" id="certificateList"></div>
-                            </div>
-                            <div class="file-upload-group">
-                                <label for="awardFiles">Ảnh khen thưởng</label>
-                                <div class="file-upload-area" onclick="document.getElementById('awardFiles').click()">
-                                    <i class="fas fa-image"></i>
-                                    <span>Click để chọn ảnh hoặc kéo thả ảnh vào đây</span>
-                                    <small>Hỗ trợ: JPG, PNG (Tối đa 5MB/file)</small>
-                                </div>
-                                <input type="file" id="awardFiles" multiple accept=".jpg,.jpeg,.png" style="display: none;" onchange="handleFileUpload(this, 'awardList')">
-                                <div class="file-list" id="awardList"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="tutorSchedule">Lịch dạy có thể</label>
-                        <div class="schedule-grid">
-                            <div class="schedule-day">
-                                <h5>Thứ 2</h5>
-                                <input type="time" class="time-start">
-                                <input type="time" class="time-end">
-                            </div>
-                            <div class="schedule-day">
-                                <h5>Thứ 3</h5>
-                                <input type="time" class="time-start">
-                                <input type="time" class="time-end">
-                            </div>
-                            <div class="schedule-day">
-                                <h5>Thứ 4</h5>
-                                <input type="time" class="time-start">
-                                <input type="time" class="time-end">
-                            </div>
-                            <div class="schedule-day">
-                                <h5>Thứ 5</h5>
-                                <input type="time" class="time-start">
-                                <input type="time" class="time-end">
-                            </div>
-                            <div class="schedule-day">
-                                <h5>Thứ 6</h5>
-                                <input type="time" class="time-start">
-                                <input type="time" class="time-end">
-                            </div>
-                            <div class="schedule-day">
-                                <h5>Thứ 7</h5>
-                                <input type="time" class="time-start">
-                                <input type="time" class="time-end">
-                            </div>
-                            <div class="schedule-day">
-                                <h5>Chủ nhật</h5>
-                                <input type="time" class="time-start">
-                                <input type="time" class="time-end">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-actions">
-                    <button type="button" class="btn btn-outline" onclick="closeModal('registerTutor')">Hủy</button>
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-paper-plane"></i>
-                        Gửi hồ sơ
-                    </button>
-                </div>
-            </form>
+<div id="registerTutorModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Tạo khóa học</h3>
+            <button class="close" onclick="closeModal('registerTutor')">&times;</button>
         </div>
+        <form id="registerTutorForm">
+            <div class="form-section">
+                <h4>Thông tin dạy học</h4>
+                <div class="form-group">
+                    <label>Chuyên ngành</label>
+                    <p class="fixed-faculty">Công nghệ Thông tin</p>
+                </div>
+                <div class="form-group">
+                    <label>Môn học có thể dạy *</label>
+                    <div class="radio-group" id="subjectsContainer"></div>
+                </div>
+                <div class="form-group">
+                    <label for="tutorExperience">Mô tả khóa học</label>
+                    <textarea id="tutorExperience" placeholder="Mô tả kinh nghiệm dạy học của bạn"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Thời gian khóa học</label>
+                    <div class="date-range-container">
+                        <div class="date-input-group">
+                            <label for="courseStartDate">Ngày bắt đầu khóa học *</label>
+                            <input type="date" id="courseStartDate" required>
+                        </div>
+                        <div class="date-input-group">
+                            <label for="courseEndDate">Ngày kết thúc khóa học *</label>
+                            <input type="date" id="courseEndDate" required>
+                        </div>
+                    </div>
+                    <div class="date-validation" id="dateValidation" style="display: none;">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span id="dateValidationMessage"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Chứng chỉ và thành tích</label>
+                    <div class="file-upload-section">
+                        <div class="file-upload-group">
+                            <label for="certificateFiles">Chứng chỉ chuyên ngành</label>
+                            <div class="file-upload-area" onclick="document.getElementById('certificateFiles').click()">
+                                <i class="fas fa-file-upload"></i>
+                                <span>Click để chọn file hoặc kéo thả file vào đây</span>
+                                <small>Hỗ trợ: PDF, JPG, PNG (Tối đa 5MB/file)</small>
+                            </div>
+                            <input type="file" id="certificateFiles" multiple accept=".pdf,.jpg,.jpeg,.png" style="display: none;" onchange="handleFileUpload(this, 'certificateList')">
+                            <div class="file-list" id="certificateList"></div>
+                        </div>
+                        <div class="file-upload-group">
+                            <label for="awardFiles">Ảnh khen thưởng</label>
+                            <div class="file-upload-area" onclick="document.getElementById('awardFiles').click()">
+                                <i class="fas fa-image"></i>
+                                <span>Click để chọn ảnh hoặc kéo thả ảnh vào đây</span>
+                                <small>Hỗ trợ: JPG, PNG (Tối đa 5MB/file)</small>
+                            </div>
+                            <input type="file" id="awardFiles" multiple accept=".jpg,.jpeg,.png" style="display: none;" onchange="handleFileUpload(this, 'awardList')">
+                            <div class="file-list" id="awardList"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="tutorSchedule">Lịch dạy có thể</label>
+                    <div class="schedule-grid">
+                        <div class="schedule-day">
+                            <h5>Thứ 2</h5>
+                            <input type="time" class="time-start">
+                            <input type="time" class="time-end">
+                        </div>
+                        <div class="schedule-day">
+                            <h5>Thứ 3</h5>
+                            <input type="time" class="time-start">
+                            <input type="time" class="time-end">
+                        </div>
+                        <div class="schedule-day">
+                            <h5>Thứ 4</h5>
+                            <input type="time" class="time-start">
+                            <input type="time" class="time-end">
+                        </div>
+                        <div class="schedule-day">
+                            <h5>Thứ 5</h5>
+                            <input type="time" class="time-start">
+                            <input type="time" class="time-end">
+                        </div>
+                        <div class="schedule-day">
+                            <h5>Thứ 6</h5>
+                            <input type="time" class="time-start">
+                            <input type="time" class="time-end">
+                        </div>
+                        <div class="schedule-day">
+                            <h5>Thứ 7</h5>
+                            <input type="time" class="time-start">
+                            <input type="time" class="time-end">
+                        </div>
+                        <div class="schedule-day">
+                            <h5>Chủ nhật</h5>
+                            <input type="time" class="time-start">
+                            <input type="time" class="time-end">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-actions">
+                <button type="button" class="btn btn-outline" onclick="closeModal('registerTutor')">Hủy</button>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-paper-plane"></i>
+                    Gửi hồ sơ
+                </button>
+            </div>
+        </form>
     </div>
-
+</div>
     <!-- Online Teaching Room Modal -->
     <div id="teachingRoomModal" class="modal teaching-room-modal">
         <div class="modal-content teaching-room-content">

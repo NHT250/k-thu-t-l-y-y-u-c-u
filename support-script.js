@@ -7,67 +7,82 @@ const sampleApplications = [
     {
         id: 1,
         name: "Nguyễn Văn A",
-        email: "nguyenvana@vanlanguni.vn",
-        phone: "0123 456 789",
-        khoa: "Khoa Công nghệ Thông tin",
+        email: "nguyenvana@example.com",
+        phone: "0123456789",
+        khoa: "Công nghệ Thông tin",
         year: "Năm 3",
-        subjects: ["Toán", "Lý", "Hóa"],
-        experience: "2 năm kinh nghiệm dạy kèm",
+        subjects: ["Lập trình Web", "Cơ sở dữ liệu", "Trí tuệ nhân tạo"],
+        certificateFile: "https://example.com/certificates/certificate1.pdf",
+        rewardFile: "https://example.com/rewards/reward1.pdf",
+        experience: "Có 2 năm kinh nghiệm gia sư môn Lập trình Web và Cơ sở dữ liệu. Đã tham gia các dự án thực tế về phát triển ứng dụng web.",
+        submittedDate: "2025-07-15",
         status: "pending",
-        submittedDate: "2024-01-15"
+        studentId: "2374802010741"
+        
     },
     {
         id: 2,
         name: "Trần Thị B",
-        email: "tranthib@vanlanguni.vn",
-        phone: "0987 654 321",
-        khoa: "Khoa Kinh tế",
-        year: "Năm 2",
-        subjects: ["Toán", "Tiếng Anh"],
-        experience: "1 năm kinh nghiệm gia sư",
-        status: "pending",
-        submittedDate: "2024-01-14"
+        email: "tranthib@example.com",
+        phone: "0987654321",
+        khoa: "Khoa học Máy tính",
+        year: "Năm 4",
+        subjects: ["Thuật toán", "Mạng máy tính"],
+        certificateFile: null,
+        rewardFile: "https://example.com/rewards/reward2.pdf",
+        experience: "Đã dạy kèm môn Thuật toán cho sinh viên năm nhất trong 1 năm. Tham gia cuộc thi lập trình cấp trường và đạt giải nhì.",
+        submittedDate: "2025-08-01",
+        status: "approved",
+        studentId: "SV2374802010963"
     },
     {
         id: 3,
         name: "Lê Văn C",
-        email: "levanc@vanlanguni.vn",
-        phone: "0555 123 456",
-        khoa: "Khoa Ngoại ngữ",
-        year: "Năm 4",
-        subjects: ["Tiếng Anh", "Tiếng Nhật"],
-        experience: "3 năm kinh nghiệm dạy ngoại ngữ",
-        status: "approved",
-        submittedDate: "2024-01-10",
-        approvedDate: "2024-01-12"
+        email: "levanc@example.com",
+        phone: "0912345678",
+        khoa: "Kỹ thuật Phần mềm",
+        year: "Năm 2",
+        subjects: ["Lập trình Java", "Kiểm thử phần mềm"],
+        certificateFile: "https://example.com/certificates/certificate3.pdf",
+        rewardFile: null,
+        experience: "Mới bắt đầu làm gia sư, có kiến thức vững về Java và đã hoàn thành khóa học kiểm thử phần mềm.",
+        submittedDate: "2025-08-05",
+        status: "pending",
+        studentId: "SV2374802010852"
     }
 ];
 
 const sampleCourses = [
     {
         id: 1,
-        title: "Toán cơ bản cho sinh viên năm 1",
+        title: "Công nghệ thông tin cơ bản",
         description: "Khóa học cung cấp kiến thức toán cơ bản cho sinh viên mới",
         tutor: "Nguyễn Văn A",
         subject: "Toán",
         schedule: "Thứ 2, 4, 6 - 14:00-16:00",
         duration: "12 buổi",
-        maxStudents: 5,
+        maxStudents: 1,
         status: "pending",
-        submittedDate: "2024-01-15"
+        submittedDate: "2024-01-15",
+        startDate: "2024-02-01",
+        endDate: "2024-03-15",
+        studentId: "2374802010458"
     },
     {
         id: 2,
-        title: "Luyện thi TOEIC",
+        title: "Ngoai ngữ ",
         description: "Khóa học luyện thi TOEIC cho sinh viên",
         tutor: "Trần Thị B",
         subject: "Tiếng Anh",
         schedule: "Thứ 3, 5, 7 - 18:00-20:00",
         duration: "16 buổi",
-        maxStudents: 8,
+        maxStudents: 1,
         status: "approved",
         submittedDate: "2024-01-12",
-        approvedDate: "2024-01-14"
+        approvedDate: "2024-01-14",
+        startDate: "2024-02-01",
+        endDate: "2024-04-01",
+        studentId: "2374802010494"
     }
 ];
 
@@ -104,7 +119,7 @@ const sampleHistory = [
     {
         id: 2,
         type: "course",
-        name: "Luyện thi TOEIC",
+        name: "cơ sở dữ liệu",
         action: "approved",
         date: "2024-01-14",
         time: "14:15"
@@ -466,6 +481,12 @@ function viewApplicationDetail(appId) {
     const app = sampleApplications.find(a => a.id === appId);
     if (!app) return;
     
+    // Hàm trích xuất tên file từ URL
+    const getFileName = (url) => {
+        if (!url) return 'Không có file';
+        return url.split('/').pop() || 'Không có file';
+    };
+
     const detailContainer = document.getElementById('applicationDetail');
     detailContainer.innerHTML = `
         <div class="detail-section">
@@ -474,6 +495,10 @@ function viewApplicationDetail(appId) {
                 <div class="detail-item">
                     <span class="detail-label">Họ và tên</span>
                     <span class="detail-value">${app.name}</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Mã sinh viên</span>
+                    <span class="detail-value">${app.studentId || "Chưa có"}</span>
                 </div>
                 <div class="detail-item">
                     <span class="detail-label">Email</span>
@@ -495,11 +520,23 @@ function viewApplicationDetail(appId) {
                     <span class="detail-label">Môn học có thể dạy</span>
                     <span class="detail-value">${app.subjects.join(', ')}</span>
                 </div>
+                <div class="detail-item">
+                    <span class="detail-label">Chứng chỉ</span>
+                    <span class="detail-value">
+                        ${app.certificateFile ? 
+                            `${getFileName(app.certificateFile)} <a href="${app.certificateFile}" target="_blank" class="view-button">Xem</a>` : 
+                            'Không có file'}
+                    </span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Khen thưởng</span>
+                    <span class="detail-value">
+                        ${app.rewardFile ? 
+                            `${getFileName(app.rewardFile)} <a href="${app.rewardFile}" target="_blank" class="view-button">Xem</a>` : 
+                            'Không có file'}
+                    </span>
+                </div>
             </div>
-        </div>
-        <div class="detail-section">
-            <h4>Kinh nghiệm dạy học</h4>
-            <p>${app.experience}</p>
         </div>
         <div class="detail-section">
             <h4>Thông tin đăng ký</h4>
@@ -518,7 +555,6 @@ function viewApplicationDetail(appId) {
     
     openModal('applicationModal');
 }
-
 // View course detail
 function viewCourseDetail(courseId) {
     const course = sampleCourses.find(c => c.id === courseId);
@@ -530,7 +566,7 @@ function viewCourseDetail(courseId) {
             <h4>Thông tin khóa học</h4>
             <div class="detail-grid">
                 <div class="detail-item">
-                    <span class="detail-label">Tên khóa học</span>
+                    <span class="detail-label">Chuyên ngành</span>
                     <span class="detail-value">${course.title}</span>
                 </div>
                 <div class="detail-item">
@@ -553,6 +589,18 @@ function viewCourseDetail(courseId) {
                     <span class="detail-label">Số học viên tối đa</span>
                     <span class="detail-value">${course.maxStudents}</span>
                 </div>
+                <div class="detail-item">
+                    <span class="detail-label">Mã sinh viên</span>
+                    <span class="detail-value">${course.studentId || "Chưa có"}</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Ngày bắt đầu</span>
+                    <span class="detail-value">${formatDate(course.startDate)}</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Ngày kết thúc</span>
+                    <span class="detail-value">${formatDate(course.endDate)}</span>
+                </div>
             </div>
         </div>
         <div class="detail-section">
@@ -570,6 +618,12 @@ function viewCourseDetail(courseId) {
                     <span class="detail-label">Trạng thái</span>
                     <span class="detail-value">${course.status === 'pending' ? 'Chờ duyệt' : 'Đã duyệt'}</span>
                 </div>
+                ${course.approvedDate ? `
+                <div class="detail-item">
+                    <span class="detail-label">Ngày duyệt</span>
+                    <span class="detail-value">${formatDate(course.approvedDate)}</span>
+                </div>
+                ` : ''}
             </div>
         </div>
     `;

@@ -217,7 +217,8 @@
         </section>
 
         <!-- Tutor Registration Section -->
-        <section id="tutor-register" class="section">
+               <!-- Tutor Registration Section -->
+          <section id="tutor-register" class="section">
             <div class="container">
                 <div class="section-header">
                     <h1>Đăng ký làm gia sư</h1>
@@ -228,32 +229,26 @@
                         <h2>Thông tin gia sư</h2>
                         <form id="tutorRegisterForm" class="profile-form">
                             <div class="form-group">
-                                <label>Môn học giảng dạy</label>
-                                <select id="tutorSubject" required>
-                                    <option value="">Chọn môn học</option>
-                                    <option value="toan">Toán học</option>
-                                    <option value="ly">Vật lý</option>
-                                    <option value="hoa">Hóa học</option>
-                                    <option value="van">Văn học</option>
-                                    <option value="anh">Tiếng Anh</option>
-                                    <option value="tin">Tin học</option>
+                                <label>Chuyên ngành</label>
+                                <select id="tutorSpecialization" required>
+                                    <option value="">Chọn chuyên ngành</option>
+                                    <option value="congNgheThongTin">Công nghệ thông tin</option>
+                                    <option value="quanTriKinhDoanh">Quản trị kinh doanh</option>
+                                    <option value="khoaHocTuNhien">Khoa học tự nhiên</option>
+                                    <option value="khoaHocXaHoi">Khoa học xã hội</option>
                                 </select>
                             </div>
-                            <div class="form-group">
-                                <label>Kinh nghiệm giảng dạy</label>
-                                <textarea id="tutorExperience" placeholder="Mô tả kinh nghiệm giảng dạy của bạn" required></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label>Trình độ học vấn</label>
-                                <textarea id="tutorQualifications" placeholder="Mô tả trình độ học vấn, bằng cấp" required></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label>Lịch trình giảng dạy</label>
-                                <textarea id="tutorSchedule" placeholder="Mô tả lịch trình bạn có thể giảng dạy" required></textarea>
+                            <div class="form-group" id="tutorSubjects">
+                                <label>Môn học giảng dạy</label>
+                                <div class="subjects-grid" id="subjectsGrid"></div>
                             </div>
                             <div class="form-group">
                                 <label>Tải lên chứng chỉ (PDF, PNG, JPEG)</label>
                                 <input type="file" id="tutorCertificates" multiple accept=".pdf,.png,.jpeg,.jpg">
+                            </div>
+                            <div class="form-group">
+                                <label>Tải lên ảnh khen thưởng (PNG, JPEG)</label>
+                                <input type="file" id="tutorAwards" multiple accept=".png,.jpeg,.jpg">
                             </div>
                             <button type="submit" class="btn btn-primary">
                                 <i class="fas fa-save"></i>
@@ -265,6 +260,7 @@
             </div>
         </section>
     </main>
+
 
     <!-- Course Detail Modal -->
     <div id="courseDetailModal" class="modal">

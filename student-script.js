@@ -393,7 +393,81 @@ function displayProfile() {
 
 // Display tutor registration form
 function displayTutorRegister() {
-    // No additional content to load, form is static in HTML
+  const subjectsBySpecialization = {
+    congNgheThongTin: [
+        { id: "tin", name: "Tin học" },
+        { id: "lapTrinh", name: "Lập trình" },
+        { id: "coSoDuLieu", name: "Cơ sở dữ liệu" },
+        { id: "mangMayTinh", name: "Mạng máy tính" }
+    ],
+    quanTriKinhDoanh: [
+        { id: "keToan", name: "Kế toán" },
+        { id: "quanTri", name: "Quản trị" },
+        { id: "marketing", name: "Marketing" },
+        { id: "taiChinh", name: "Tài chính" }
+    ],
+    khoaHocTuNhien: [
+        { id: "toan", name: "Toán học" },
+        { id: "ly", name: "Vật lý" },
+        { id: "hoa", name: "Hóa học" },
+        { id: "sinh", name: "Sinh học" }
+    ],
+    khoaHocXaHoi: [
+        { id: "van", name: "Văn học" },
+        { id: "su", name: "Lịch sử" },
+        { id: "dia", name: "Địa lý" },
+        { id: "anh", name: "Tiếng Anh" }
+    ]
+};
+
+document.getElementById('tutorSpecialization').addEventListener('change', function() {
+    const specialization = this.value;
+    const subjectsGrid = document.getElementById('subjectsGrid');
+    const tutorSubjects = document.getElementById('tutorSubjects');
+
+    subjectsGrid.innerHTML = '';
+    tutorSubjects.style.display = specialization ? 'block' : 'none';
+
+    if (specialization && subjectsBySpecialization[specialization]) {
+        subjectsBySpecialization[specialization].forEach(subject => {
+            const subjectItem = document.createElement('div');
+            subjectItem.className = 'subject-item';
+            subjectItem.innerHTML = `
+                <input type="checkbox" id="${subject.id}" name="subjects" value="${subject.id}">
+                <label for="${subject.id}">${subject.name}</label>
+            `;
+            subjectsGrid.appendChild(subjectItem);
+        });
+    }
+});
+
+document.getElementById('tutorRegisterForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const specialization = document.getElementById('tutorSpecialization').value;
+    const selectedSubjects = Array.from(document.querySelectorAll('input[name="subjects"]:checked')).map(input => input.value);
+    const certificates = document.getElementById('tutorCertificates').files;
+    const awards = document.getElementById('tutorAwards').files;
+
+    if (!specialization) {
+        alert('Vui lòng chọn chuyên ngành.');
+        return;
+    }
+
+    if (selectedSubjects.length === 0) {
+        alert('Vui lòng chọn ít nhất một môn học.');
+        return;
+    }
+
+    console.log('Đăng ký gia sư:', {
+        specialization,
+        subjects: selectedSubjects,
+        certificates: Array.from(certificates).map(file => file.name),
+        awards: Array.from(awards).map(file => file.name)
+    });
+
+    alert('Đăng ký gia sư đã được gửi!');
+});
+
 }
 
 // Handle course search
