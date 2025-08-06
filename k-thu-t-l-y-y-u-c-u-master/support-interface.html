@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GiaSu Lang - Trung tâm Hỗ trợ Sinh viên</title>
+    <link rel="stylesheet" href="support-styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="translations.js"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <i class="fas fa-headset"></i>
+                <span>Trung tâm Hỗ trợ Sinh viên</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#overview" class="nav-link active" data-translate="overview">Tổng quan</a></li>
+                <li><a href="#tutor-approval" class="nav-link" data-translate="tutor_approval">Duyệt gia sư</a></li>
+                <li><a href="#course-approval" class="nav-link" data-translate="course_approval">Duyệt khóa học</a></li>
+                <li><a href="#history" class="nav-link" data-translate="history">Lịch sử</a></li>
+            </ul>
+            <div class="nav-user">
+                <div class="language-switcher">
+                    <button onclick="changeLanguage('vi')" class="lang-btn ${currentLanguage === 'vi' ? 'active' : ''}">VI</button>
+                    <button onclick="changeLanguage('en')" class="lang-btn ${currentLanguage === 'en' ? 'active' : ''}">EN</button>
+                </div>
+                <div class="user-info">
+                    <img src="https://via.placeholder.com/40" alt="Avatar" class="user-avatar">
+                    <span class="user-name">Admin</span>
+                </div>
+                <button class="btn btn-outline" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span data-translate="logout">Đăng xuất</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Overview Section -->
+        <section id="overview" class="overview-section">
+            <div class="container">
+                <div class="section-header">
+                    <h1>Trang Tổng quan</h1>
+                    <p>Thống kê tổng hợp về hoạt động của hệ thống GiaSu Lang</p>
+                </div>
+
+                <!-- Stats Cards -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>156</h3>
+                            <p>Tổng số hồ sơ gia sư</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-user-check"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>142</h3>
+                            <p>Hồ sơ đã duyệt</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-user-clock"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>14</h3>
+                            <p>Hồ sơ chờ duyệt</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>89</h3>
+                            <p>Khóa học đã tạo</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>12</h3>
+                            <p>Khóa học chờ duyệt</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>77</h3>
+                            <p>Khóa học đã duyệt</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="quick-actions">
+                    <h2>Thao tác nhanh</h2>
+                    <div class="actions-grid">
+                        <button class="action-card" onclick="showSection('tutor-approval')">
+                            <i class="fas fa-user-plus"></i>
+                            <h3>Duyệt gia sư</h3>
+                            <p>Xét duyệt hồ sơ gia sư mới</p>
+                        </button>
+                        <button class="action-card" onclick="showSection('course-approval')">
+                            <i class="fas fa-graduation-cap"></i>
+                            <h3>Duyệt khóa học</h3>
+                            <p>Phê duyệt khóa học mới</p>
+                        </button>
+                        <button class="action-card" onclick="showSection('history')">
+                            <i class="fas fa-history"></i>
+                            <h3>Xem lịch sử</h3>
+                            <p>Lịch sử duyệt hồ sơ và khóa học</p>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Recent Activities -->
+                <div class="recent-activities">
+                    <h2>Hoạt động gần đây</h2>
+                    <div class="activity-list">
+                        <div class="activity-item">
+                            <div class="activity-icon">
+                                <i class="fas fa-user-check"></i>
+                            </div>
+                            <div class="activity-content">
+                                <h4>Đã duyệt hồ sơ gia sư</h4>
+                                <p>Nguyễn Văn A - Khoa CNTT</p>
+                                <span class="activity-time">2 giờ trước</span>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-icon">
+                                <i class="fas fa-graduation-cap"></i>
+                            </div>
+                            <div class="activity-content">
+                                <h4>Đã duyệt khóa học</h4>
+                                <p>Toán cơ bản - Trần Thị B</p>
+                                <span class="activity-time">4 giờ trước</span>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-icon">
+                                <i class="fas fa-calendar"></i>
+                            </div>
+                            <div class="activity-content">
+                                <h4>Đã tạo lịch phỏng vấn</h4>
+                                <p>Lê Văn C - 15:00 ngày 20/01/2024</p>
+                                <span class="activity-time">1 ngày trước</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tutor Approval Section -->
+        <section id="tutor-approval" class="tutor-approval-section">
+            <div class="container">
+                <div class="section-header">
+                    <h1>Duyệt gia sư</h1>
+                    <p>Xét duyệt hồ sơ gia sư mới và quản lý quy trình phỏng vấn</p>
+                </div>
+
+                <!-- Approval Tabs -->
+                <div class="approval-tabs">
+                    <button class="tab-btn active" onclick="switchTab('pending')">Hồ sơ chờ duyệt</button>
+                    <button class="tab-btn" onclick="switchTab('interview')">Lịch phỏng vấn</button>
+                    <button class="tab-btn" onclick="switchTab('approved')">Đã duyệt</button>
+                </div>
+
+                <!-- Pending Applications -->
+                <div id="pending-tab" class="tab-content active">
+                    <div class="applications-list" id="pendingApplications">
+                        <!-- Applications will be loaded here -->
+                    </div>
+                </div>
+
+                <!-- Interview Schedule -->
+                <div id="interview-tab" class="tab-content">
+                    <div class="interview-schedule">
+                        <h3>Lịch phỏng vấn</h3>
+                        <div class="schedule-list" id="interviewSchedule">
+                            <!-- Interview schedule will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Approved Applications -->
+                <div id="approved-tab" class="tab-content">
+                    <div class="applications-list" id="approvedApplications">
+                        <!-- Approved applications will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Course Approval Section -->
+        <section id="course-approval" class="course-approval-section">
+            <div class="container">
+                <div class="section-header">
+                    <h1>Duyệt khóa học</h1>
+                    <p>Phê duyệt khóa học mới và quản lý danh sách khóa học</p>
+                </div>
+
+                <!-- Course Tabs -->
+                <div class="approval-tabs">
+                    <button class="tab-btn active" onclick="switchCourseTab('pending-courses')">Khóa học chờ duyệt</button>
+                    <button class="tab-btn" onclick="switchCourseTab('approved-courses')">Khóa học đã duyệt</button>
+                </div>
+
+                <!-- Pending Courses -->
+                <div id="pending-courses-tab" class="tab-content active">
+                    <div class="courses-list" id="pendingCourses">
+                        <!-- Pending courses will be loaded here -->
+                    </div>
+                </div>
+
+                <!-- Approved Courses -->
+                <div id="approved-courses-tab" class="tab-content">
+                    <div class="courses-list" id="approvedCourses">
+                        <!-- Approved courses will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- History Section -->
+        <section id="history" class="history-section">
+            <div class="container">
+                <div class="section-header">
+                    <h1>Lịch sử</h1>
+                    <p>Xem lại lịch sử duyệt hồ sơ và khóa học</p>
+                </div>
+
+                <div class="history-filters">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Tìm kiếm theo tên, email..." id="historySearch">
+                    </div>
+                    <div class="filters">
+                        <select id="historyTypeFilter">
+                            <option value="">Tất cả loại</option>
+                            <option value="tutor">Hồ sơ gia sư</option>
+                            <option value="course">Khóa học</option>
+                        </select>
+                        <select id="historyStatusFilter">
+                            <option value="">Tất cả trạng thái</option>
+                            <option value="approved">Đã duyệt</option>
+                            <option value="rejected">Từ chối</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="history-list" id="historyList">
+                    <!-- History items will be loaded here -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Interview Schedule Modal -->
+    <div id="interviewModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Tạo lịch phỏng vấn</h3>
+                <button class="close" onclick="closeModal('interviewModal')">&times;</button>
+            </div>
+            <form id="interviewForm">
+                <div class="form-group">
+                    <label for="interviewDate">Ngày phỏng vấn *</label>
+                    <input type="date" id="interviewDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="interviewTime">Giờ phỏng vấn *</label>
+                    <input type="time" id="interviewTime" required>
+                </div>
+                <div class="form-group">
+                    <label for="interviewType">Hình thức phỏng vấn *</label>
+                    <select id="interviewType" required>
+                        <option value="">Chọn hình thức</option>
+                        <option value="online">Online (Zoom/Meet)</option>
+                        <option value="offline">Offline (Văn phòng)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="interviewNotes">Ghi chú</label>
+                    <textarea id="interviewNotes" placeholder="Ghi chú cho ứng viên"></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-outline" onclick="closeModal('interviewModal')">Hủy</button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-calendar-plus"></i>
+                        Tạo lịch hẹn
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Application Detail Modal -->
+    <div id="applicationModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Chi tiết hồ sơ gia sư</h3>
+                <button class="close" onclick="closeModal('applicationModal')">&times;</button>
+            </div>
+            <div class="application-detail" id="applicationDetail">
+                <!-- Application details will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Course Detail Modal -->
+    <div id="courseDetailModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Chi tiết khóa học</h3>
+                <button class="close" onclick="closeModal('courseDetailModal')">&times;</button>
+            </div>
+            <div class="course-detail" id="courseDetail">
+                <!-- Course details will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="support-script.js"></script>
+</body>
+</html>
