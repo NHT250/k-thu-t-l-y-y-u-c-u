@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GiaSu Lang - Giao diện Học viên</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="student-styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                    <span>GiaSu Lang</span>
+                </div>
+                <nav class="nav-menu">
+                    <a href="#dashboard" class="nav-link active">Dashboard</a>
+                    <a href="#courses" class="nav-link">Khóa học</a>
+                    <a href="#profile" class="nav-link">Hồ sơ cá nhân</a>
+                    <a href="#history" class="nav-link">Lịch sử học tập</a>
+                </nav>
+                <div class="user-menu">
+                    <div class="user-info">
+                        <i class="fas fa-user-circle"></i>
+                        <span id="userName">Học viên</span>
+                    </div>
+                    <button class="logout-btn" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Đăng xuất
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Dashboard Section -->
+        <section id="dashboard" class="section active">
+            <div class="container">
+                <div class="section-header">
+                    <h1>Dashboard - Học viên</h1>
+                    <p>Chào mừng bạn đến với GiaSu Lang!</p>
+                </div>
+
+                <!-- Quick Stats -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-book-open"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="activeCourses">0</h3>
+                            <p>Khóa học đang tham gia</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="completedCourses">0</h3>
+                            <p>Khóa học đã hoàn thành</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="totalHours">0</h3>
+                            <p>Giờ học đã tham gia</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="averageRating">0.0</h3>
+                            <p>Đánh giá trung bình</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Today's Classes -->
+                <div class="today-classes">
+                    <h2>Lớp học hôm nay</h2>
+                    <div id="todayClassesList" class="classes-list">
+                        <div class="no-classes">
+                            <i class="fas fa-calendar-times"></i>
+                            <p>Không có lớp học nào hôm nay</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="quick-actions">
+                    <h2>Thao tác nhanh</h2>
+                    <div class="actions-grid">
+                        <button class="action-btn" onclick="showSection('courses')">
+                            <i class="fas fa-search"></i>
+                            <span>Tìm khóa học mới</span>
+                        </button>
+                        <button class="action-btn" onclick="showSection('profile')">
+                            <i class="fas fa-user-edit"></i>
+                            <span>Cập nhật hồ sơ</span>
+                        </button>
+                        <button class="action-btn" onclick="showSection('history')">
+                            <i class="fas fa-history"></i>
+                            <span>Xem lịch sử học tập</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Courses Section -->
+        <section id="courses" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h1>Đăng ký khóa học</h1>
+                    <p>Tìm và đăng ký khóa học phù hợp với bạn</p>
+                </div>
+
+                <!-- Search and Filter -->
+                <div class="search-filter">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="courseSearch" placeholder="Tìm kiếm khóa học...">
+                    </div>
+                    <div class="search-box">
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="tutorSearch" placeholder="Tìm theo tên giảng viên...">
+                    </div>
+                    <div class="filter-box">
+                        <select id="subjectFilter">
+                            <option value="">Tất cả môn học</option>
+                            <option value="toan">Toán học</option>
+                            <option value="ly">Vật lý</option>
+                            <option value="hoa">Hóa học</option>
+                            <option value="van">Văn học</option>
+                            <option value="anh">Tiếng Anh</option>
+                            <option value="tin">Tin học</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Available Courses -->
+                <div class="courses-grid" id="coursesGrid">
+                    <!-- Course cards will be populated by JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Profile Section -->
+        <section id="profile" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h1>Hồ sơ cá nhân</h1>
+                    <p>Quản lý thông tin cá nhân và khóa học của bạn</p>
+                </div>
+
+                <div class="profile-content">
+                    <!-- Personal Info -->
+                    <div class="profile-section">
+                        <h2>Thông tin cá nhân</h2>
+                        <div class="profile-form">
+                            <div class="form-group">
+                                <label>Mã sinh viên</label>
+                                <input type="text" id="profileStudentId" value="SV00123456" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label>Họ và tên</label>
+                                <input type="text" id="profileName" value="Nguyễn Văn A" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="email" id="profileEmail" value="student@vanlang.edu.vn" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label>Số điện thoại</label>
+                                <input type="tel" id="profilePhone" value="0123456789" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label>Khoa</label>
+                                <input type="text" id="profileFaculty" value="Công nghệ thông tin" disabled>
+                            </div>
+                            <!-- Ẩn nút cập nhật thông tin -->
+                        </div>
+                    </div>
+
+                    <!-- Current Courses -->
+                    <div class="profile-section">
+                        <h2>Khóa học đang tham gia</h2>
+                        <div id="currentCoursesList" class="courses-list">
+                            <!-- Current courses will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- History Section -->
+        <section id="history" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h1>Lịch sử học tập</h1>
+                    <p>Xem lại các khóa học đã hoàn thành</p>
+                </div>
+
+                <div class="history-content">
+                    <div class="history-filters">
+                        <button class="filter-btn active" data-filter="all">Tất cả</button>
+                        <button class="filter-btn" data-filter="completed">Đã hoàn thành</button>
+                        <button class="filter-btn" data-filter="cancelled">Đã hủy</button>
+                    </div>
+
+                    <div id="historyList" class="history-list">
+                        <!-- History items will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Course Detail Modal -->
+    <div id="courseDetailModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalCourseTitle">Chi tiết khóa học</h3>
+                <button class="close" onclick="closeModal('courseDetail')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="modalCourseContent">
+                    <!-- Course details will be populated by JavaScript -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('courseDetail')">Đóng</button>
+                <button class="btn btn-primary" id="joinCourseBtn" onclick="joinCourse()">
+                    <i class="fas fa-plus"></i>
+                    Tham gia lớp học
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Class Session Modal -->
+    <div id="classSessionModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="sessionTitle">Buổi học</h3>
+                <button class="close" onclick="closeModal('classSession')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="session-info">
+                    <div class="session-details">
+                        <p><strong>Gia sư:</strong> <span id="sessionTutor">Nguyễn Văn B</span></p>
+                        <p><strong>Môn học:</strong> <span id="sessionSubject">Toán học</span></p>
+                        <p><strong>Thời gian:</strong> <span id="sessionTime">14:00 - 16:00</span></p>
+                        <p><strong>Nội dung:</strong> <span id="sessionContent">Giải tích hàm số</span></p>
+                    </div>
+                    <div class="session-status">
+                        <div class="status-indicator" id="sessionStatus">
+                            <i class="fas fa-clock"></i>
+                            <span>Chưa bắt đầu</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('classSession')">Đóng</button>
+                <button class="btn btn-success" id="startSessionBtn" onclick="startSession()">
+                    <i class="fas fa-play"></i>
+                    Bắt đầu buổi học
+                </button>
+                <button class="btn btn-danger" id="endSessionBtn" onclick="endSession()" style="display: none;">
+                    <i class="fas fa-stop"></i>
+                    Kết thúc buổi học
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="student-script.js"></script>
+</body>
+</html> 
