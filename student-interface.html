@@ -22,6 +22,7 @@
                     <a href="#courses" class="nav-link">Khóa học</a>
                     <a href="#profile" class="nav-link">Hồ sơ cá nhân</a>
                     <a href="#history" class="nav-link">Lịch sử học tập</a>
+                    <a href="#tutor-register" class="nav-link">Đăng ký gia sư</a>
                 </nav>
                 <div class="user-menu">
                     <div class="user-info">
@@ -46,8 +47,6 @@
                     <h1>Dashboard - Học viên</h1>
                     <p>Chào mừng bạn đến với GiaSu Lang!</p>
                 </div>
-
-                <!-- Quick Stats -->
                 <div class="stats-grid">
                     <div class="stat-card">
                         <div class="stat-icon">
@@ -86,8 +85,6 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Today's Classes -->
                 <div class="today-classes">
                     <h2>Lớp học hôm nay</h2>
                     <div id="todayClassesList" class="classes-list">
@@ -97,8 +94,6 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Quick Actions -->
                 <div class="quick-actions">
                     <h2>Thao tác nhanh</h2>
                     <div class="actions-grid">
@@ -114,6 +109,10 @@
                             <i class="fas fa-history"></i>
                             <span>Xem lịch sử học tập</span>
                         </button>
+                        <button class="action-btn" onclick="showSection('tutor-register')">
+                            <i class="fas fa-chalkboard-teacher"></i>
+                            <span>Đăng ký làm gia sư</span>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -126,8 +125,6 @@
                     <h1>Đăng ký khóa học</h1>
                     <p>Tìm và đăng ký khóa học phù hợp với bạn</p>
                 </div>
-
-                <!-- Search and Filter -->
                 <div class="search-filter">
                     <div class="search-box">
                         <i class="fas fa-search"></i>
@@ -149,10 +146,7 @@
                         </select>
                     </div>
                 </div>
-
-                <!-- Available Courses -->
                 <div class="courses-grid" id="coursesGrid">
-                    <!-- Course cards will be populated by JavaScript -->
                 </div>
             </div>
         </section>
@@ -164,41 +158,39 @@
                     <h1>Hồ sơ cá nhân</h1>
                     <p>Quản lý thông tin cá nhân và khóa học của bạn</p>
                 </div>
-
                 <div class="profile-content">
-                    <!-- Personal Info -->
                     <div class="profile-section">
                         <h2>Thông tin cá nhân</h2>
                         <div class="profile-form">
                             <div class="form-group">
                                 <label>Mã sinh viên</label>
-                                <input type="text" id="profileStudentId" value="SV00123456" disabled>
+                                <input type="text" id="profileStudentId" value="SV00123456" readonly>
                             </div>
                             <div class="form-group">
                                 <label>Họ và tên</label>
-                                <input type="text" id="profileName" value="Nguyễn Văn A" disabled>
+                                <input type="text" id="profileName" value="Nguyễn Văn A">
                             </div>
                             <div class="form-group">
                                 <label>Email</label>
-                                <input type="email" id="profileEmail" value="student@vanlang.edu.vn" disabled>
+                                <input type="email" id="profileEmail" value="student@vanlang.edu.vn">
                             </div>
                             <div class="form-group">
                                 <label>Số điện thoại</label>
-                                <input type="tel" id="profilePhone" value="0123456789" disabled>
+                                <input type="tel" id="profilePhone" value="0123456789">
                             </div>
                             <div class="form-group">
                                 <label>Khoa</label>
-                                <input type="text" id="profileFaculty" value="Công nghệ thông tin" disabled>
+                                <input type="text" id="profileFaculty" value="Công nghệ thông tin">
                             </div>
-                            <!-- Ẩn nút cập nhật thông tin -->
+                            <button class="btn btn-primary" onclick="updateProfile()">
+                                <i class="fas fa-save"></i>
+                                Cập nhật thông tin
+                            </button>
                         </div>
                     </div>
-
-                    <!-- Current Courses -->
                     <div class="profile-section">
                         <h2>Khóa học đang tham gia</h2>
                         <div id="currentCoursesList" class="courses-list">
-                            <!-- Current courses will be populated by JavaScript -->
                         </div>
                     </div>
                 </div>
@@ -212,16 +204,62 @@
                     <h1>Lịch sử học tập</h1>
                     <p>Xem lại các khóa học đã hoàn thành</p>
                 </div>
-
                 <div class="history-content">
                     <div class="history-filters">
                         <button class="filter-btn active" data-filter="all">Tất cả</button>
                         <button class="filter-btn" data-filter="completed">Đã hoàn thành</button>
                         <button class="filter-btn" data-filter="cancelled">Đã hủy</button>
                     </div>
-
                     <div id="historyList" class="history-list">
-                        <!-- History items will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tutor Registration Section -->
+        <section id="tutor-register" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h1>Đăng ký làm gia sư</h1>
+                    <p>Điền thông tin để trở thành gia sư trên GiaSu Lang</p>
+                </div>
+                <div class="profile-content">
+                    <div class="profile-section">
+                        <h2>Thông tin gia sư</h2>
+                        <form id="tutorRegisterForm" class="profile-form">
+                            <div class="form-group">
+                                <label>Môn học giảng dạy</label>
+                                <select id="tutorSubject" required>
+                                    <option value="">Chọn môn học</option>
+                                    <option value="toan">Toán học</option>
+                                    <option value="ly">Vật lý</option>
+                                    <option value="hoa">Hóa học</option>
+                                    <option value="van">Văn học</option>
+                                    <option value="anh">Tiếng Anh</option>
+                                    <option value="tin">Tin học</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Kinh nghiệm giảng dạy</label>
+                                <textarea id="tutorExperience" placeholder="Mô tả kinh nghiệm giảng dạy của bạn" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Trình độ học vấn</label>
+                                <textarea id="tutorQualifications" placeholder="Mô tả trình độ học vấn, bằng cấp" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Lịch trình giảng dạy</label>
+                                <textarea id="tutorSchedule" placeholder="Mô tả lịch trình bạn có thể giảng dạy" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Tải lên chứng chỉ (PDF, PNG, JPEG)</label>
+                                <input type="file" id="tutorCertificates" multiple accept=".pdf,.png,.jpeg,.jpg">
+                            </div>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i>
+                                Gửi đăng ký
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -237,14 +275,13 @@
             </div>
             <div class="modal-body">
                 <div id="modalCourseContent">
-                    <!-- Course details will be populated by JavaScript -->
                 </div>
             </div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" onclick="closeModal('courseDetail')">Đóng</button>
-                <button class="btn btn-primary" id="joinCourseBtn" onclick="joinCourse()">
+                <button class="btn btn-primary" id="joinCourseBtn">
                     <i class="fas fa-plus"></i>
-                    Tham gia lớp học
+                    Đăng ký lớp học
                 </button>
             </div>
         </div>
@@ -287,6 +324,55 @@
         </div>
     </div>
 
+    <!-- Tutor Registration Modal -->
+    <div id="tutorRegisterModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Đăng ký làm gia sư</h3>
+                <button class="close" onclick="closeModal('tutorRegister')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="tutorRegisterFormModal" class="profile-form">
+                    <div class="form-group">
+                        <label>Môn học giảng dạy</label>
+                        <select id="tutorSubjectModal" required>
+                            <option value="">Chọn môn học</option>
+                            <option value="toan">Toán học</option>
+                            <option value="ly">Vật lý</option>
+                            <option value="hoa">Hóa học</option>
+                            <option value="van">Văn học</option>
+                            <option value="anh">Tiếng Anh</option>
+                            <option value="tin">Tin học</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Kinh nghiệm giảng dạy</label>
+                        <textarea id="tutorExperienceModal" placeholder="Mô tả kinh nghiệm giảng dạy của bạn" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Trình độ học vấn</label>
+                        <textarea id="tutorQualificationsModal" placeholder="Mô tả trình độ học vấn, bằng cấp" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Lịch trình giảng dạy</label>
+                        <textarea id="tutorScheduleModal" placeholder="Mô tả lịch trình bạn có thể giảng dạy" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Tải lên chứng chỉ (PDF, PNG, JPEG)</label>
+                        <input type="file" id="tutorCertificatesModal" multiple accept=".pdf,.png,.jpeg,.jpg">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('tutorRegister')">Đóng</button>
+                <button class="btn btn-primary" onclick="document.getElementById('tutorRegisterFormModal').dispatchEvent(new Event('submit'))">
+                    <i class="fas fa-save"></i>
+                    Gửi đăng ký
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script src="student-script.js"></script>
 </body>
-</html> 
+</html>

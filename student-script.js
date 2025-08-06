@@ -1,4 +1,4 @@
-// Student Interface JavaScript
+// Student Interface JavaScript with Tutor Registration
 
 // Global variables
 let currentUser = {
@@ -21,19 +21,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Initialize application
 function initializeApp() {
-    // Load sample data
     loadSampleData();
-    
-    // Set user name
     document.getElementById('userName').textContent = currentUser.name;
-    
-    // Show dashboard by default
     showSection('dashboard');
 }
 
 // Setup event listeners
 function setupEventListeners() {
-    // Navigation
     document.querySelectorAll('.nav-link').forEach(link => {
         link.addEventListener('click', (e) => {
             e.preventDefault();
@@ -43,7 +37,6 @@ function setupEventListeners() {
         });
     });
 
-    // Search and filter
     const courseSearch = document.getElementById('courseSearch');
     const tutorSearch = document.getElementById('tutorSearch');
     const subjectFilter = document.getElementById('subjectFilter');
@@ -58,7 +51,6 @@ function setupEventListeners() {
         subjectFilter.addEventListener('change', handleCourseFilter);
     }
 
-    // History filters
     document.querySelectorAll('.filter-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
             document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
@@ -67,12 +59,17 @@ function setupEventListeners() {
         });
     });
 
-    // Modal close events
     window.addEventListener('click', (e) => {
         if (e.target.classList.contains('modal')) {
             e.target.style.display = 'none';
         }
     });
+
+    // Tutor registration form submission
+    const tutorRegisterForm = document.getElementById('tutorRegisterForm');
+    if (tutorRegisterForm) {
+        tutorRegisterForm.addEventListener('submit', handleTutorRegistration);
+    }
 }
 
 // Load sample data
@@ -180,7 +177,6 @@ function loadSampleData() {
 
 // Load user data
 function loadUserData() {
-    // In a real app, this would load from localStorage or API
     updateStats();
     displayCurrentCourses();
     displayHistory();
@@ -188,18 +184,15 @@ function loadUserData() {
 
 // Show section
 function showSection(sectionId) {
-    // Hide all sections
     document.querySelectorAll('.section').forEach(section => {
         section.classList.remove('active');
     });
     
-    // Show target section
     const targetSection = document.getElementById(sectionId);
     if (targetSection) {
         targetSection.classList.add('active');
     }
     
-    // Load section-specific content
     switch(sectionId) {
         case 'dashboard':
             displayDashboard();
@@ -212,6 +205,9 @@ function showSection(sectionId) {
             break;
         case 'history':
             displayHistory();
+            break;
+        case 'tutor-register':
+            displayTutorRegister();
             break;
     }
 }
@@ -309,7 +305,7 @@ function displayAvailableCourses() {
                     </button>
                     <button class="btn btn-primary" onclick="joinCourse(${course.id})">
                         <i class="fas fa-plus"></i>
-                        Tham gia
+                        Đăng ký
                     </button>
                 </div>
             </div>
@@ -329,7 +325,6 @@ function displayCurrentCourses() {
         `;
     } else {
         currentCoursesList.innerHTML = currentCourses.map(course => {
-            // Kiểm tra điều kiện hủy
             let cancelBtn = '';
             if (course.registeredAt) {
                 const now = new Date();
@@ -393,8 +388,12 @@ function displayHistory() {
 
 // Display profile
 function displayProfile() {
-    // Profile form is already populated in HTML
     displayCurrentCourses();
+}
+
+// Display tutor registration form
+function displayTutorRegister() {
+    // No additional content to load, form is static in HTML
 }
 
 // Handle course search
@@ -420,7 +419,7 @@ function handleCourseFilter() {
     displayFilteredCourses(filteredCourses);
 }
 
-// Hàm tìm kiếm theo tên giảng viên
+// Handle tutor search
 function handleTutorSearch() {
     const tutorTerm = document.getElementById('tutorSearch').value.toLowerCase();
     const filteredCourses = availableCourses.filter(course =>
@@ -440,7 +439,40 @@ function displayFilteredCourses(courses) {
             </div>
         `;
     } else {
-        displayAvailableCourses(); // Reuse the existing function
+        coursesGrid.innerHTML = courses.map(course => `
+            <div class="course-card">
+                <div class="course-image">
+                    <i class="fas fa-${getSubjectIcon(course.subject)}"></i>
+                </div>
+                <div class="course-content">
+                    <div class="course-header">
+                        <div>
+                            <h3 class="course-title">${course.title}</h3>
+                            <span class="course-subject">${course.subjectName}</span>
+                        </div>
+                    </div>
+                    <p class="course-tutor">Gia sư: ${course.tutor}</p>
+                    <div class="course-details">
+                        <div class="course-rating">
+                            <i class="fas fa-star"></i>
+                            <span>${course.rating}</span>
+                        </div>
+                        <span>${course.sessions} buổi học</span>
+                        <span>Bắt đầu: ${course.startDate} - Kết thúc: ${course.endDate}</span>
+                    </div>
+                    <div class="course-actions">
+                        <button class="btn btn-secondary" onclick="viewCourseDetail(${course.id})">
+                            <i class="fas fa-eye"></i>
+                            Chi tiết
+                        </button>
+                        <button class="btn btn-primary" onclick="joinCourse(${course.id})">
+                            <i class="fas fa-plus"></i>
+                            Đăng ký
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `).join('');
     }
 }
 
@@ -454,14 +486,13 @@ function filterHistory(filter) {
         filteredHistory = completedCourses.filter(course => course.status === 'cancelled');
     }
     
-    displayHistory(); // Reuse existing function
+    displayHistory();
 }
 
 // View course detail
 function viewCourseDetail(courseId) {
     const course = availableCourses.find(c => c.id === courseId);
     if (!course) return;
-    // Giả lập dữ liệu file chứng chỉ và khen thưởng
     const certificates = course.certificates || [
         { name: 'Chứng chỉ Toán nâng cao.pdf', url: '#' },
         { name: 'Chứng chỉ Sư phạm.png', url: '#' }
@@ -495,6 +526,7 @@ function viewCourseDetail(courseId) {
             </div>
         </div>
     `;
+    document.getElementById('joinCourseBtn').setAttribute('onclick', `joinCourse(${course.id})`);
     openModal('courseDetail');
 }
 
@@ -503,11 +535,9 @@ function joinCourse(courseId) {
     const course = availableCourses.find(c => c.id === courseId);
     if (!course) return;
     
-    // Simulate joining process
     showMessage('Đang đăng ký khóa học...', 'info');
     
     setTimeout(() => {
-        // Add to current courses
         const newCourse = {
             id: course.id,
             title: course.title,
@@ -517,26 +547,22 @@ function joinCourse(courseId) {
             nextSession: getNextSessionTime(),
             totalSessions: course.sessions,
             completedSessions: 0,
-            registeredAt: new Date().toISOString(), // Thời điểm đăng ký
+            registeredAt: new Date().toISOString(),
             startDate: course.startDate,
             endDate: course.endDate,
-            meetingUrl: course.meetingUrl // Add meetingUrl to newCourse
+            meetingUrl: course.meetingUrl
         };
         
         currentCourses.push(newCourse);
-        
-        // Remove from available courses
         availableCourses = availableCourses.filter(c => c.id !== courseId);
         
         showMessage('Đăng ký khóa học thành công!', 'success');
         closeModal('courseDetail');
         
-        // Update displays
         updateStats();
         displayAvailableCourses();
         displayCurrentCourses();
 
-        // Tự động vào phòng học online
         setTimeout(() => {
             joinClassSession(newCourse.id);
         }, 500);
@@ -586,13 +612,95 @@ function endSession() {
     
     showMessage('Buổi học đã kết thúc! Vui lòng đánh giá buổi học.', 'success');
     
-    // Show rating modal or prompt
     setTimeout(() => {
         const rating = prompt('Đánh giá buổi học (1-5 sao):');
         if (rating && !isNaN(rating) && rating >= 1 && rating <= 5) {
             showMessage(`Cảm ơn bạn đã đánh giá ${rating} sao!`, 'success');
         }
     }, 1000);
+}
+
+// Cancel course
+function cancelCourse(courseId) {
+    const course = currentCourses.find(c => c.id === courseId);
+    if (!course) return;
+    
+    if (confirm('Bạn có chắc muốn hủy khóa học này?')) {
+        showMessage('Đang hủy khóa học...', 'info');
+        
+        setTimeout(() => {
+            currentCourses = currentCourses.filter(c => c.id !== courseId);
+            availableCourses.push({
+                id: course.id,
+                title: course.title,
+                subject: course.subject.toLowerCase(),
+                subjectName: course.subject,
+                tutor: course.tutor,
+                rating: 4.5,
+                students: 0,
+                sessions: course.totalSessions,
+                description: `Khóa học ${course.subject.toLowerCase()} cơ bản`,
+                schedule: 'Thứ 2, 4, 6 - 14:00-16:00',
+                price: 'Miễn phí cho sinh viên VLU',
+                startDate: course.startDate,
+                endDate: course.endDate,
+                meetingUrl: course.meetingUrl
+            });
+            
+            showMessage('Hủy khóa học thành công!', 'success');
+            updateStats();
+            displayAvailableCourses();
+            displayCurrentCourses();
+        }, 2000);
+    }
+}
+
+// Handle tutor registration
+function handleTutorRegistration(e) {
+    e.preventDefault();
+    
+    const subject = document.getElementById('tutorSubject').value;
+    const experience = document.getElementById('tutorExperience').value;
+    const qualifications = document.getElementById('tutorQualifications').value;
+    const schedule = document.getElementById('tutorSchedule').value;
+    const certificates = document.getElementById('tutorCertificates').files;
+    
+    if (!subject || !experience || !qualifications || !schedule) {
+        showMessage('Vui lòng nhập đầy đủ thông tin', 'error');
+        return;
+    }
+    
+    // Simulate file validation
+    const validFileTypes = ['application/pdf', 'image/png', 'image/jpeg'];
+    for (let file of certificates) {
+        if (!validFileTypes.includes(file.type)) {
+            showMessage('Chỉ chấp nhận file PDF, PNG hoặc JPEG', 'error');
+            return;
+        }
+    }
+    
+    showMessage('Đang gửi yêu cầu đăng ký gia sư...', 'info');
+    
+    setTimeout(() => {
+        // Update user role (in a real app, this would be sent to a server)
+        currentUser.role = 'tutor';
+        currentUser.tutorInfo = {
+            subject,
+            experience,
+            qualifications,
+            schedule,
+            certificates: Array.from(certificates).map(file => ({
+                name: file.name,
+                url: '#' // In a real app, this would be a server-uploaded URL
+            }))
+        };
+        
+        showMessage('Đăng ký làm gia sư thành công! Đang chờ phê duyệt.', 'success');
+        closeModal('tutorRegister');
+        
+        // Update UI to reflect tutor status
+        document.getElementById('userName').textContent = `${currentUser.name} (Gia sư)`;
+    }, 2000);
 }
 
 // Update profile
@@ -608,14 +716,12 @@ function updateProfile() {
         return;
     }
     
-    // Update user data
     currentUser.studentId = studentId;
     currentUser.name = name;
     currentUser.email = email;
     currentUser.phone = phone;
     currentUser.faculty = faculty;
     
-    // Update display
     document.getElementById('userName').textContent = name;
     
     showMessage('Cập nhật thông tin thành công!', 'success');
@@ -624,11 +730,8 @@ function updateProfile() {
 // Logout
 function logout() {
     if (confirm('Bạn có chắc muốn đăng xuất?')) {
-        // Clear session data
         currentUser = null;
         currentCourses = [];
-        
-        // Redirect to main page
         window.location.href = 'index.html';
     }
 }
@@ -680,8 +783,8 @@ function formatDate(dateString) {
 
 function getNextSessionTime() {
     const now = new Date();
-    const nextSession = new Date(now.getTime() + 24 * 60 * 60 * 1000); // Tomorrow
-    nextSession.setHours(14, 0, 0, 0); // 2 PM
+    const nextSession = new Date(now.getTime() + 24 * 60 * 60 * 1000);
+    nextSession.setHours(14, 0, 0, 0);
     return nextSession.toISOString();
 }
 
@@ -743,10 +846,14 @@ function showMessage(message, type = 'info') {
     
     document.body.appendChild(messageDiv);
     
-    // Auto remove after 5 seconds
     setTimeout(() => {
         if (messageDiv.parentElement) {
             messageDiv.remove();
         }
     }, 5000);
-} 
+}
+
+// Go to meeting
+function goToMeeting(url) {
+    window.open(url, '_blank');
+}
